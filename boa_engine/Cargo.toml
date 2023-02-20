@@ -94,6 +94,10 @@ yoke = { version = "0.7.1", optional = true }
 zerofrom = { version = "0.1.2", optional = true }
 sys-locale = { version = "0.3.1", optional = true }
 
+# sk deps start
+wasm-bindgen-test = "0.3.13"
+# sk deps end
+
 [dev-dependencies]
 criterion = "0.5.1"
 float-cmp = "0.9.0"

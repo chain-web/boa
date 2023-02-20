@@ -29,6 +29,11 @@ mod opcode;
 
 mod runtime_limits;
 
+// sk mod start
+/// The opcode cost unit.
+pub mod opcode_cu;
+// sk mod end
+
 #[cfg(feature = "flowgraph")]
 pub mod flowgraph;
 
@@ -305,6 +310,13 @@ impl Context<'_> {
         };
 
         let _timer = Profiler::global().start_event(opcode.as_instruction_str(), "vm");
+
+        // sk culimit start 
+        // js_console_log(&format!("opcode: {}, cost: {}", opcode.as_str(), &self.vm.cu_cost.to_string()));
+        if !self.cost_record.run_opcode(opcode) {
+            return Err(JsError::from_opaque(JsValue::from("out of cu limit")));
+        }
+        // sk culimit end
 
         opcode.execute(self)
     }

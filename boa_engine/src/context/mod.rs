@@ -36,6 +36,11 @@ use boa_profiler::Profiler;
 
 use crate::vm::RuntimeLimits;
 
+// sk mod start
+/// The run time cost of the context.
+pub mod cost_record;
+// sk mod end
+
 /// ECMAScript context. It is the primary way to interact with the runtime.
 ///
 /// `Context`s constructed in a thread share the same runtime, therefore it
@@ -91,6 +96,11 @@ pub struct Context<'host> {
     /// Number of instructions remaining before a forced exit
     #[cfg(feature = "fuzz")]
     pub(crate) instructions_remaining: usize,
+
+    // sk cost start
+    /// The cost record of the context.
+    pub cost_record: cost_record::CostRecord,
+    // sk cost end
 
     pub(crate) vm: Vm,
 
@@ -915,6 +925,9 @@ impl<'icu, 'hooks, 'queue, 'module> ContextBuilder<'icu, 'hooks, 'queue, 'module
             realm,
             interner: self.interner.unwrap_or_default(),
             vm,
+            // sk cost_record start
+            cost_record: cost_record::CostRecord::default(),
+            // sk cost_record end
             strict: false,
             #[cfg(feature = "intl")]
             icu: self.icu.unwrap_or_else(|| {
