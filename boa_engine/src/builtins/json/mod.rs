@@ -98,9 +98,12 @@ impl Json {
 
         // 2. Parse ! StringToCodePoints(jsonString) as a JSON text as specified in ECMA-404.
         //    Throw a SyntaxError exception if it is not a valid JSON text as defined in that specification.
-        if let Err(e) = serde_json::from_str::<serde_json::Value>(&json_string) {
-            return Err(JsNativeError::syntax().with_message(e.to_string()).into());
-        }
+
+        // sk json bigint start
+        // if let Err(e) = serde_json::from_str::<serde_json::Value>(&json_string) {
+        //     return Err(JsNativeError::syntax().with_message(e.to_string()).into());
+        // }
+        // sk json bigint end
 
         // 3. Let scriptString be the string-concatenation of "(", jsonString, and ");".
         // TODO: fix script read for eval
@@ -493,9 +496,18 @@ impl Json {
 
         // 10. If Type(value) is BigInt, throw a TypeError exception.
         if value.is_bigint() {
-            return Err(JsNativeError::typ()
-                .with_message("cannot serialize bigint to JSON")
-                .into());
+            // sk json bigint start
+            return Ok(Some(JsString::concat(
+                value
+                    .to_string(context)
+                    .expect("ToString should never fail here")
+                    .as_slice(),
+                utf16!("n"),
+            )));
+            // return Err(JsNativeError::typ()
+            //     .with_message("cannot serialize bigint to JSON")
+            //     .into());
+            // sk json bigint start
         }
 
         // 11. If Type(value) is Object and IsCallable(value) is false, then
