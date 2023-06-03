@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["InternalBitFlags","Slot","SlotAttributes"],"type":["SlotIndex"]};

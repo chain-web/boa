@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["collator","date_time_format","list_format","locale","options","segmenter"],"struct":["Intl"],"trait":["Service"]};

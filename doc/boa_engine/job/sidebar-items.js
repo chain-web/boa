@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["mark"],"struct":["IdleJobQueue","JobCallback","NativeJob","SimpleJobQueue"],"trait":["JobQueue"],"type":["FutureJob"]};

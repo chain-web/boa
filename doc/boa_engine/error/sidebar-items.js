@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["JsNativeErrorKind","Repr","TryNativeError"],"fn":["mark"],"struct":["JsError","JsNativeError"]};

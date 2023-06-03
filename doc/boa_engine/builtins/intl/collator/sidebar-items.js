@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["R"],"fn":["mark"],"mod":["options"],"struct":["Collator","CollatorLocaleOptions"]};

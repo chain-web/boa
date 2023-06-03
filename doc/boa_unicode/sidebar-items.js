@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["UNICODE_VERSION"],"fn":["table_binary_search"],"mod":["tables"],"trait":["UnicodeProperties"]};

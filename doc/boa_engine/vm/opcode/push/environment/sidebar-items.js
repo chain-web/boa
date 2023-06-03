@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["PopPrivateEnvironment","PushDeclarativeEnvironment","PushFunctionEnvironment","PushObjectEnvironment","PushPrivateEnvironment"]};

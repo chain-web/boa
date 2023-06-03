@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Super","SuperCall","SuperCallDerived","SuperCallPrepare","SuperCallSpread","This"]};

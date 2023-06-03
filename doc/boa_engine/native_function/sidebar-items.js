@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Inner"],"fn":["mark"],"struct":["Closure","NativeFunction"],"trait":["TraceableClosure"],"type":["NativeFunctionPointer"]};

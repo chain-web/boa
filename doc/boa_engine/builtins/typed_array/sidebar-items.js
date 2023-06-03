@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["TypedArrayKind"],"macro":["typed_array"],"mod":["integer_indexed_object"],"struct":["BigInt64Array","BigUint64Array","Float32Array","Float64Array","Int16Array","Int32Array","Int8Array","TypedArray","Uint16Array","Uint32Array","Uint8Array","Uint8ClampedArray"]};

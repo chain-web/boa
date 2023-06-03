@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["SEEN"],"enum":["RecursionValueState"],"fn":["__getit","__init","mark"],"static":["__KEY"],"struct":["BorrowError","BorrowMutError","JsObject","RecursionLimiter","VTableObject"],"type":["Ref","RefMut"]};

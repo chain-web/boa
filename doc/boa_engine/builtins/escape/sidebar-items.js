@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["escape","is_unescaped","to_hex_digit","unescape"],"struct":["Escape","PeekableN","Unescape"]};

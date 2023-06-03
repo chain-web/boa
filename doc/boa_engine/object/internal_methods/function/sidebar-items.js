@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["function_call","function_construct"],"static":["CONSTRUCTOR_INTERNAL_METHODS","FUNCTION_INTERNAL_METHODS"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["RECURSIVE_COUNT_Case","RECURSIVE_COUNT_Switch"],"fn":["__getit","__init"],"static":["__KEY"],"struct":["Case","Switch"]};
