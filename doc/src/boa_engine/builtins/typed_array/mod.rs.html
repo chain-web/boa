@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/builtins/typed_array/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-ba5701c5741a7b69.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0 (90c541806 2023-05-31)" data-search-js="search-e077946657036a58.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-7bfb4c59cc6bc502.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-905937fbbdc8e9ea.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f61008743c98d196.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/builtins/typed_array/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3575,6 +3575,154 @@
 <a href="#3575" id="3575">3575</a>
 <a href="#3576" id="3576">3576</a>
 <a href="#3577" id="3577">3577</a>
+<a href="#3578" id="3578">3578</a>
+<a href="#3579" id="3579">3579</a>
+<a href="#3580" id="3580">3580</a>
+<a href="#3581" id="3581">3581</a>
+<a href="#3582" id="3582">3582</a>
+<a href="#3583" id="3583">3583</a>
+<a href="#3584" id="3584">3584</a>
+<a href="#3585" id="3585">3585</a>
+<a href="#3586" id="3586">3586</a>
+<a href="#3587" id="3587">3587</a>
+<a href="#3588" id="3588">3588</a>
+<a href="#3589" id="3589">3589</a>
+<a href="#3590" id="3590">3590</a>
+<a href="#3591" id="3591">3591</a>
+<a href="#3592" id="3592">3592</a>
+<a href="#3593" id="3593">3593</a>
+<a href="#3594" id="3594">3594</a>
+<a href="#3595" id="3595">3595</a>
+<a href="#3596" id="3596">3596</a>
+<a href="#3597" id="3597">3597</a>
+<a href="#3598" id="3598">3598</a>
+<a href="#3599" id="3599">3599</a>
+<a href="#3600" id="3600">3600</a>
+<a href="#3601" id="3601">3601</a>
+<a href="#3602" id="3602">3602</a>
+<a href="#3603" id="3603">3603</a>
+<a href="#3604" id="3604">3604</a>
+<a href="#3605" id="3605">3605</a>
+<a href="#3606" id="3606">3606</a>
+<a href="#3607" id="3607">3607</a>
+<a href="#3608" id="3608">3608</a>
+<a href="#3609" id="3609">3609</a>
+<a href="#3610" id="3610">3610</a>
+<a href="#3611" id="3611">3611</a>
+<a href="#3612" id="3612">3612</a>
+<a href="#3613" id="3613">3613</a>
+<a href="#3614" id="3614">3614</a>
+<a href="#3615" id="3615">3615</a>
+<a href="#3616" id="3616">3616</a>
+<a href="#3617" id="3617">3617</a>
+<a href="#3618" id="3618">3618</a>
+<a href="#3619" id="3619">3619</a>
+<a href="#3620" id="3620">3620</a>
+<a href="#3621" id="3621">3621</a>
+<a href="#3622" id="3622">3622</a>
+<a href="#3623" id="3623">3623</a>
+<a href="#3624" id="3624">3624</a>
+<a href="#3625" id="3625">3625</a>
+<a href="#3626" id="3626">3626</a>
+<a href="#3627" id="3627">3627</a>
+<a href="#3628" id="3628">3628</a>
+<a href="#3629" id="3629">3629</a>
+<a href="#3630" id="3630">3630</a>
+<a href="#3631" id="3631">3631</a>
+<a href="#3632" id="3632">3632</a>
+<a href="#3633" id="3633">3633</a>
+<a href="#3634" id="3634">3634</a>
+<a href="#3635" id="3635">3635</a>
+<a href="#3636" id="3636">3636</a>
+<a href="#3637" id="3637">3637</a>
+<a href="#3638" id="3638">3638</a>
+<a href="#3639" id="3639">3639</a>
+<a href="#3640" id="3640">3640</a>
+<a href="#3641" id="3641">3641</a>
+<a href="#3642" id="3642">3642</a>
+<a href="#3643" id="3643">3643</a>
+<a href="#3644" id="3644">3644</a>
+<a href="#3645" id="3645">3645</a>
+<a href="#3646" id="3646">3646</a>
+<a href="#3647" id="3647">3647</a>
+<a href="#3648" id="3648">3648</a>
+<a href="#3649" id="3649">3649</a>
+<a href="#3650" id="3650">3650</a>
+<a href="#3651" id="3651">3651</a>
+<a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
+<a href="#3658" id="3658">3658</a>
+<a href="#3659" id="3659">3659</a>
+<a href="#3660" id="3660">3660</a>
+<a href="#3661" id="3661">3661</a>
+<a href="#3662" id="3662">3662</a>
+<a href="#3663" id="3663">3663</a>
+<a href="#3664" id="3664">3664</a>
+<a href="#3665" id="3665">3665</a>
+<a href="#3666" id="3666">3666</a>
+<a href="#3667" id="3667">3667</a>
+<a href="#3668" id="3668">3668</a>
+<a href="#3669" id="3669">3669</a>
+<a href="#3670" id="3670">3670</a>
+<a href="#3671" id="3671">3671</a>
+<a href="#3672" id="3672">3672</a>
+<a href="#3673" id="3673">3673</a>
+<a href="#3674" id="3674">3674</a>
+<a href="#3675" id="3675">3675</a>
+<a href="#3676" id="3676">3676</a>
+<a href="#3677" id="3677">3677</a>
+<a href="#3678" id="3678">3678</a>
+<a href="#3679" id="3679">3679</a>
+<a href="#3680" id="3680">3680</a>
+<a href="#3681" id="3681">3681</a>
+<a href="#3682" id="3682">3682</a>
+<a href="#3683" id="3683">3683</a>
+<a href="#3684" id="3684">3684</a>
+<a href="#3685" id="3685">3685</a>
+<a href="#3686" id="3686">3686</a>
+<a href="#3687" id="3687">3687</a>
+<a href="#3688" id="3688">3688</a>
+<a href="#3689" id="3689">3689</a>
+<a href="#3690" id="3690">3690</a>
+<a href="#3691" id="3691">3691</a>
+<a href="#3692" id="3692">3692</a>
+<a href="#3693" id="3693">3693</a>
+<a href="#3694" id="3694">3694</a>
+<a href="#3695" id="3695">3695</a>
+<a href="#3696" id="3696">3696</a>
+<a href="#3697" id="3697">3697</a>
+<a href="#3698" id="3698">3698</a>
+<a href="#3699" id="3699">3699</a>
+<a href="#3700" id="3700">3700</a>
+<a href="#3701" id="3701">3701</a>
+<a href="#3702" id="3702">3702</a>
+<a href="#3703" id="3703">3703</a>
+<a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
+<a href="#3717" id="3717">3717</a>
+<a href="#3718" id="3718">3718</a>
+<a href="#3719" id="3719">3719</a>
+<a href="#3720" id="3720">3720</a>
+<a href="#3721" id="3721">3721</a>
+<a href="#3722" id="3722">3722</a>
+<a href="#3723" id="3723">3723</a>
+<a href="#3724" id="3724">3724</a>
+<a href="#3725" id="3725">3725</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Boa&#39;s implementation of ECMAScript&#39;s global `TypedArray` objects.
 //!
 //! A `TypedArray` object describes an array-like view of an underlying binary data buffer.
@@ -3591,16 +3739,19 @@
 
 </span><span class="kw">use crate</span>::{
     builtins::{
-        array::ArrayIterator,
+        array::{find_via_predicate, ArrayIterator, Direction},
         array_buffer::{ArrayBuffer, SharedMemoryOrder},
         iterable::iterable_to_list,
         typed_array::integer_indexed_object::{ContentType, IntegerIndexed},
-        Array, BuiltInBuilder, BuiltInConstructor, BuiltInObject, IntrinsicObject,
+        BuiltInBuilder, BuiltInConstructor, BuiltInObject, IntrinsicObject,
     },
     context::intrinsics::{Intrinsics, StandardConstructor, StandardConstructors},
     error::JsNativeError,
     js_string,
-    object::{internal_methods::get_prototype_from_constructor, JsObject, ObjectData, ObjectKind},
+    object::{
+        internal_methods::{get_prototype_from_constructor, integer_indexed_element_set},
+        JsObject, ObjectData, ObjectKind,
+    },
     property::{Attribute, PropertyNameKind},
     realm::Realm,
     string::utf16,
@@ -3609,7 +3760,7 @@
     Context, JsArgs, JsResult,
 };
 <span class="kw">use </span>boa_profiler::Profiler;
-<span class="kw">use </span>num_traits::{Signed, Zero};
+<span class="kw">use </span>num_traits::Zero;
 <span class="kw">use </span>std::cmp::Ordering;
 
 <span class="kw">pub mod </span>integer_indexed_object;
@@ -3761,7 +3912,7 @@
 
                         </span><span class="kw">let </span>first_argument_v = JsValue::from(first_argument.clone());
                         <span class="kw">let </span>using_iterator =
-                            first_argument_v.get_method(JsSymbol::replace(), context)<span class="question-mark">?</span>;
+                            first_argument_v.get_method(JsSymbol::iterator(), context)<span class="question-mark">?</span>;
 
                         <span class="comment">// 3. If usingIterator is not undefined, then
                         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(using_iterator) = using_iterator {
@@ -3855,7 +4006,7 @@
             )
             .property(
                 JsSymbol::iterator(),
-                values_function,
+                values_function.clone(),
                 Attribute::WRITABLE | Attribute::NON_ENUMERABLE | Attribute::CONFIGURABLE,
             )
             .accessor(
@@ -3897,7 +4048,9 @@
             .method(<span class="self">Self</span>::fill, <span class="string">&quot;fill&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::filter, <span class="string">&quot;filter&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::find, <span class="string">&quot;find&quot;</span>, <span class="number">1</span>)
-            .method(<span class="self">Self</span>::findindex, <span class="string">&quot;findIndex&quot;</span>, <span class="number">1</span>)
+            .method(<span class="self">Self</span>::find_index, <span class="string">&quot;findIndex&quot;</span>, <span class="number">1</span>)
+            .method(<span class="self">Self</span>::find_last, <span class="string">&quot;findLast&quot;</span>, <span class="number">1</span>)
+            .method(<span class="self">Self</span>::find_last_index, <span class="string">&quot;findLastIndex&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::foreach, <span class="string">&quot;forEach&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::includes, <span class="string">&quot;includes&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::index_of, <span class="string">&quot;indexOf&quot;</span>, <span class="number">1</span>)
@@ -3913,11 +4066,20 @@
             .method(<span class="self">Self</span>::some, <span class="string">&quot;some&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::sort, <span class="string">&quot;sort&quot;</span>, <span class="number">1</span>)
             .method(<span class="self">Self</span>::subarray, <span class="string">&quot;subarray&quot;</span>, <span class="number">2</span>)
-            .method(<span class="self">Self</span>::values, <span class="string">&quot;values&quot;</span>, <span class="number">0</span>)
+            .method(<span class="self">Self</span>::to_locale_string, <span class="string">&quot;toLocaleString&quot;</span>, <span class="number">0</span>)
             <span class="comment">// 23.2.3.29 %TypedArray%.prototype.toString ( )
             // The initial value of the %TypedArray%.prototype.toString data property is the same
             // built-in function object as the Array.prototype.toString method defined in 23.1.3.30.
-            </span>.method(Array::to_string, <span class="string">&quot;toString&quot;</span>, <span class="number">0</span>)
+            </span>.property(
+                <span class="macro">utf16!</span>(<span class="string">&quot;toString&quot;</span>),
+                realm.intrinsics().objects().array_prototype_to_string(),
+                Attribute::WRITABLE | Attribute::NON_ENUMERABLE | Attribute::CONFIGURABLE,
+            )
+            .property(
+                <span class="string">&quot;values&quot;</span>,
+                values_function,
+                Attribute::WRITABLE | Attribute::NON_ENUMERABLE | Attribute::CONFIGURABLE,
+            )
             .build();
     }
 
@@ -4137,6 +4299,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>i64;
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. Let relativeIndex be ? ToIntegerOrInfinity(index).
         </span><span class="kw">let </span>relative_index = args.get_or_undefined(<span class="number">0</span>).to_integer_or_infinity(context)<span class="question-mark">?</span>;
@@ -4490,6 +4654,8 @@
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
 
+        drop(obj_borrow);
+
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
             <span class="prelude-val">Some</span>(obj) <span class="kw">if </span>obj.is_callable() =&gt; obj,
@@ -4601,6 +4767,8 @@
                 .into());
         }
 
+        drop(obj_borrow);
+
         <span class="comment">// 15. Repeat, while k &lt; final,
         </span><span class="kw">while </span>k &lt; r#final {
             <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
@@ -4642,8 +4810,12 @@
                 .into());
         }
 
+        <span class="kw">let </span>typed_array_name = o.typed_array_name();
+
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn =
@@ -4689,7 +4861,7 @@
         }
 
         <span class="comment">// 9. Let A be ? TypedArraySpeciesCreate(O, « 𝔽(captured) »).
-        </span><span class="kw">let </span>a = <span class="self">Self</span>::species_create(obj, o.typed_array_name(), <span class="kw-2">&amp;</span>[captured.into()], context)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>a = <span class="self">Self</span>::species_create(obj, typed_array_name, <span class="kw-2">&amp;</span>[captured.into()], context)<span class="question-mark">?</span>;
 
         <span class="comment">// 10. Let n be 0.
         // 11. For each element e of kept, do
@@ -4733,41 +4905,24 @@
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
 
-        <span class="comment">// 4. If IsCallable(predicate) is false, throw a TypeError exception.
-        </span><span class="kw">let </span>predicate = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
-            <span class="prelude-val">Some</span>(obj) <span class="kw">if </span>obj.is_callable() =&gt; obj,
-            <span class="kw">_ </span>=&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                    .with_message(
-                        <span class="string">&quot;TypedArray.prototype.find called with non-callable predicate function&quot;</span>,
-                    )
-                    .into())
-            }
-        };
+        drop(obj_borrow);
 
-        <span class="comment">// 5. Let k be 0.
-        // 6. Repeat, while k &lt; len,
-        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..len {
-            <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
-            // b. Let kValue be ! Get(O, Pk).
-            </span><span class="kw">let </span>k_value = obj.get(k, context).expect(<span class="string">&quot;Get cannot fail here&quot;</span>);
+        <span class="kw">let </span>predicate = args.get_or_undefined(<span class="number">0</span>);
+        <span class="kw">let </span>this_arg = args.get_or_undefined(<span class="number">1</span>);
 
-            <span class="comment">// c. Let testResult be ! ToBoolean(? Call(predicate, thisArg, « kValue, 𝔽(k), O »)).
-            // d. If testResult is true, return kValue.
-            </span><span class="kw">if </span>predicate
-                .call(
-                    args.get_or_undefined(<span class="number">1</span>),
-                    <span class="kw-2">&amp;</span>[k_value.clone(), k.into(), this.clone()],
-                    context,
-                )<span class="question-mark">?
-                </span>.to_boolean()
-            {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(k_value);
-            }
-        }
+        <span class="comment">// 4. Let findRec be ? FindViaPredicate(O, len, ascending, predicate, thisArg).
+        </span><span class="kw">let </span>(<span class="kw">_</span>, value) = find_via_predicate(
+            obj,
+            len,
+            Direction::Ascending,
+            predicate,
+            this_arg,
+            context,
+            <span class="string">&quot;TypedArray.prototype.find&quot;</span>,
+        )<span class="question-mark">?</span>;
 
-        <span class="comment">// 7. Return undefined.
-        </span><span class="prelude-val">Ok</span>(JsValue::undefined())
+        <span class="comment">// 5. Return findRec.[[Value]].
+        </span><span class="prelude-val">Ok</span>(value)
     }
 
     <span class="doccomment">/// `23.2.3.12 %TypedArray%.prototype.findIndex ( predicate [ , thisArg ] )`
@@ -4776,7 +4931,7 @@
     ///  - [ECMAScript reference][spec]
     ///
     /// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>findindex(
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_index(
         this: <span class="kw-2">&amp;</span>JsValue,
         args: <span class="kw-2">&amp;</span>[JsValue],
         context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
@@ -4799,42 +4954,121 @@
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
 
-        <span class="comment">// 4. If IsCallable(predicate) is false, throw a TypeError exception.
-        </span><span class="kw">let </span>predicate = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
-            <span class="prelude-val">Some</span>(obj) <span class="kw">if </span>obj.is_callable() =&gt; obj,
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                .with_message(
-                    <span class="string">&quot;TypedArray.prototype.findindex called with non-callable predicate function&quot;</span>,
-                )
-                .into()),
-        };
+        drop(obj_borrow);
 
-        <span class="comment">// 5. Let k be 0.
-        // 6. Repeat, while k &lt; len,
-        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..len {
-            <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
-            // b. Let kValue be ! Get(O, Pk).
-            </span><span class="kw">let </span>k_value = obj.get(k, context).expect(<span class="string">&quot;Get cannot fail here&quot;</span>);
+        <span class="kw">let </span>predicate = args.get_or_undefined(<span class="number">0</span>);
+        <span class="kw">let </span>this_arg = args.get_or_undefined(<span class="number">1</span>);
 
-            <span class="comment">// c. Let testResult be ! ToBoolean(? Call(predicate, thisArg, « kValue, 𝔽(k), O »)).
-            // d. If testResult is true, return 𝔽(k).
-            </span><span class="kw">if </span>predicate
-                .call(
-                    args.get_or_undefined(<span class="number">1</span>),
-                    <span class="kw-2">&amp;</span>[k_value.clone(), k.into(), this.clone()],
-                    context,
-                )<span class="question-mark">?
-                </span>.to_boolean()
-            {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(k.into());
-            }
-        }
+        <span class="comment">// 4. Let findRec be ? FindViaPredicate(O, len, ascending, predicate, thisArg).
+        </span><span class="kw">let </span>(index, <span class="kw">_</span>) = find_via_predicate(
+            obj,
+            len,
+            Direction::Ascending,
+            predicate,
+            this_arg,
+            context,
+            <span class="string">&quot;TypedArray.prototype.findIndex&quot;</span>,
+        )<span class="question-mark">?</span>;
 
-        <span class="comment">// 7. Return -1𝔽.
-        </span><span class="prelude-val">Ok</span>((-<span class="number">1</span>).into())
+        <span class="comment">// 5. Return findRec.[[Index]].
+        </span><span class="prelude-val">Ok</span>(index)
     }
 
-    <span class="doccomment">/// `23.2.3.13 %TypedArray%.prototype.forEach ( callbackfn [ , thisArg ] )`
+    <span class="doccomment">/// `23.2.3.13 %TypedArray%.prototype.findLast ( predicate [ , thisArg ] )`
+    ///
+    /// More information:
+    ///  - [ECMAScript reference][spec]
+    ///
+    /// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.findlast
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_last(
+        this: <span class="kw-2">&amp;</span>JsValue,
+        args: <span class="kw-2">&amp;</span>[JsValue],
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; JsResult&lt;JsValue&gt; {
+        <span class="comment">// 1. Let O be the this value.
+        // 2. Perform ? ValidateTypedArray(O).
+        </span><span class="kw">let </span>obj = this.as_object().ok_or_else(|| {
+            JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+        })<span class="question-mark">?</span>;
+        <span class="kw">let </span>obj_borrow = obj.borrow();
+        <span class="kw">let </span>o = obj_borrow.as_typed_array().ok_or_else(|| {
+            JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+        })<span class="question-mark">?</span>;
+        <span class="kw">if </span>o.is_detached() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
+                .with_message(<span class="string">&quot;Buffer of the typed array is detached&quot;</span>)
+                .into());
+        }
+
+        <span class="comment">// 3. Let len be O.[[ArrayLength]].
+        </span><span class="kw">let </span>len = o.array_length();
+
+        <span class="kw">let </span>predicate = args.get_or_undefined(<span class="number">0</span>);
+        <span class="kw">let </span>this_arg = args.get_or_undefined(<span class="number">1</span>);
+
+        <span class="comment">// 4. Let findRec be ? FindViaPredicate(O, len, descending, predicate, thisArg).
+        </span><span class="kw">let </span>(<span class="kw">_</span>, value) = find_via_predicate(
+            obj,
+            len,
+            Direction::Descending,
+            predicate,
+            this_arg,
+            context,
+            <span class="string">&quot;TypedArray.prototype.findLast&quot;</span>,
+        )<span class="question-mark">?</span>;
+
+        <span class="comment">// 5. Return findRec.[[Value]].
+        </span><span class="prelude-val">Ok</span>(value)
+    }
+
+    <span class="doccomment">/// `23.2.3.14 %TypedArray%.prototype.findLastIndex ( predicate [ , thisArg ] )`
+    ///
+    /// More information:
+    ///  - [ECMAScript reference][spec]
+    ///
+    /// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.findlastindex
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_last_index(
+        this: <span class="kw-2">&amp;</span>JsValue,
+        args: <span class="kw-2">&amp;</span>[JsValue],
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; JsResult&lt;JsValue&gt; {
+        <span class="comment">// 1. Let O be the this value.
+        // 2. Perform ? ValidateTypedArray(O).
+        </span><span class="kw">let </span>obj = this.as_object().ok_or_else(|| {
+            JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+        })<span class="question-mark">?</span>;
+        <span class="kw">let </span>obj_borrow = obj.borrow();
+        <span class="kw">let </span>o = obj_borrow.as_typed_array().ok_or_else(|| {
+            JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+        })<span class="question-mark">?</span>;
+        <span class="kw">if </span>o.is_detached() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
+                .with_message(<span class="string">&quot;Buffer of the typed array is detached&quot;</span>)
+                .into());
+        }
+
+        <span class="comment">// 3. Let len be O.[[ArrayLength]].
+        </span><span class="kw">let </span>len = o.array_length();
+
+        <span class="kw">let </span>predicate = args.get_or_undefined(<span class="number">0</span>);
+        <span class="kw">let </span>this_arg = args.get_or_undefined(<span class="number">1</span>);
+
+        <span class="comment">// 4. Let findRec be ? FindViaPredicate(O, len, descending, predicate, thisArg).
+        </span><span class="kw">let </span>(index, <span class="kw">_</span>) = find_via_predicate(
+            obj,
+            len,
+            Direction::Descending,
+            predicate,
+            this_arg,
+            context,
+            <span class="string">&quot;TypedArray.prototype.findLastIndex&quot;</span>,
+        )<span class="question-mark">?</span>;
+
+        <span class="comment">// 5. Return findRec.[[Index]].
+        </span><span class="prelude-val">Ok</span>(index)
+    }
+
+    <span class="doccomment">/// `23.2.3.15 %TypedArray%.prototype.forEach ( callbackfn [ , thisArg ] )`
     ///
     /// More information:
     ///  - [ECMAScript reference][spec]
@@ -4862,6 +5096,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn =
@@ -4921,6 +5157,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>i64;
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If len is 0, return false.
         </span><span class="kw">if </span>len == <span class="number">0 </span>{
@@ -5000,6 +5238,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>i64;
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If len is 0, return -1𝔽.
         </span><span class="kw">if </span>len == <span class="number">0 </span>{
@@ -5088,6 +5328,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If separator is undefined, let sep be the single-element String &quot;,&quot;.
         </span><span class="kw">let </span>separator = args.get_or_undefined(<span class="number">0</span>);
@@ -5185,6 +5427,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>i64;
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If len is 0, return -1𝔽.
         </span><span class="kw">if </span>len == <span class="number">0 </span>{
@@ -5292,8 +5536,12 @@
                 .into());
         }
 
+        <span class="kw">let </span>typed_array_name = o.typed_array_name();
+
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
@@ -5308,7 +5556,7 @@
         };
 
         <span class="comment">// 5. Let A be ? TypedArraySpeciesCreate(O, « 𝔽(len) »).
-        </span><span class="kw">let </span>a = <span class="self">Self</span>::species_create(obj, o.typed_array_name(), <span class="kw-2">&amp;</span>[len.into()], context)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>a = <span class="self">Self</span>::species_create(obj, typed_array_name, <span class="kw-2">&amp;</span>[len.into()], context)<span class="question-mark">?</span>;
 
         <span class="comment">// 6. Let k be 0.
         // 7. Repeat, while k &lt; len,
@@ -5360,6 +5608,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn =
@@ -5445,6 +5695,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>i64;
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
@@ -5534,6 +5786,8 @@
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length() <span class="kw">as </span>f64;
 
+        drop(obj_borrow);
+
         <span class="comment">// 4. Let middle be floor(len / 2).
         </span><span class="kw">let </span>middle = (len / <span class="number">2.0</span>).floor();
 
@@ -5593,7 +5847,7 @@
         </span><span class="kw">let </span>target_offset = args.get_or_undefined(<span class="number">1</span>).to_integer_or_infinity(context)<span class="question-mark">?</span>;
 
         <span class="comment">// 5. If targetOffset &lt; 0, throw a RangeError exception.
-        </span><span class="kw">match </span>target_offset {
+        </span><span class="kw">let </span>target_offset = <span class="kw">match </span>target_offset {
             IntegerOrInfinity::Integer(i) <span class="kw">if </span>i &lt; <span class="number">0 </span>=&gt; {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
                     .with_message(<span class="string">&quot;TypedArray.set called with negative offset&quot;</span>)
@@ -5604,20 +5858,21 @@
                     .with_message(<span class="string">&quot;TypedArray.set called with negative offset&quot;</span>)
                     .into())
             }
-            <span class="kw">_ </span>=&gt; {}
-        }
+            IntegerOrInfinity::PositiveInfinity =&gt; U64OrPositiveInfinity::PositiveInfinity,
+            IntegerOrInfinity::Integer(i) =&gt; U64OrPositiveInfinity::U64(i <span class="kw">as </span>u64),
+        };
 
         <span class="kw">let </span>source = args.get_or_undefined(<span class="number">0</span>);
         <span class="kw">match </span>source {
             <span class="comment">// 6. If source is an Object that has a [[TypedArrayName]] internal slot, then
             </span>JsValue::Object(source) <span class="kw">if </span>source.is_typed_array() =&gt; {
                 <span class="comment">// a. Perform ? SetTypedArrayFromTypedArray(target, targetOffset, source).
-                </span><span class="self">Self</span>::set_typed_array_from_typed_array(target, target_offset, source, context)<span class="question-mark">?</span>;
+                </span><span class="self">Self</span>::set_typed_array_from_typed_array(target, <span class="kw-2">&amp;</span>target_offset, source, context)<span class="question-mark">?</span>;
             }
             <span class="comment">// 7. Else,
             </span><span class="kw">_ </span>=&gt; {
                 <span class="comment">// a. Perform ? SetTypedArrayFromArrayLike(target, targetOffset, source).
-                </span><span class="self">Self</span>::set_typed_array_from_array_like(target, target_offset, source, context)<span class="question-mark">?</span>;
+                </span><span class="self">Self</span>::set_typed_array_from_array_like(target, <span class="kw-2">&amp;</span>target_offset, source, context)<span class="question-mark">?</span>;
             }
         }
 
@@ -5633,7 +5888,7 @@
     /// [spec]: https://tc39.es/ecma262/#sec-settypedarrayfromtypedarray
     </span><span class="kw">fn </span>set_typed_array_from_typed_array(
         target: <span class="kw-2">&amp;</span>JsObject,
-        target_offset: IntegerOrInfinity,
+        target_offset: <span class="kw-2">&amp;</span>U64OrPositiveInfinity,
         source: <span class="kw-2">&amp;</span>JsObject,
         context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
     ) -&gt; JsResult&lt;()&gt; {
@@ -5656,7 +5911,8 @@
         }
         <span class="kw">let </span>target_buffer_obj = target_array
             .viewed_array_buffer()
-            .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>);
+            .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>)
+            .clone();
 
         <span class="comment">// 3. Let targetLength be target.[[ArrayLength]].
         </span><span class="kw">let </span>target_length = target_array.array_length();
@@ -5683,6 +5939,8 @@
         <span class="comment">// 9. Let targetByteOffset be target.[[ByteOffset]].
         </span><span class="kw">let </span>target_byte_offset = target_array.byte_offset();
 
+        drop(target_borrow);
+
         <span class="comment">// 10. Let srcName be the String value of source.[[TypedArrayName]].
         // 11. Let srcType be the Element Type value in Table 73 for srcName.
         </span><span class="kw">let </span>src_name = source_array.typed_array_name();
@@ -5698,13 +5956,12 @@
 
         <span class="comment">// 15. If targetOffset is +∞, throw a RangeError exception.
         </span><span class="kw">let </span>target_offset = <span class="kw">match </span>target_offset {
-            IntegerOrInfinity::Integer(i) <span class="kw">if </span>i &gt;= <span class="number">0 </span>=&gt; i <span class="kw">as </span>u64,
-            IntegerOrInfinity::PositiveInfinity =&gt; {
+            U64OrPositiveInfinity::U64(target_offset) =&gt; target_offset,
+            U64OrPositiveInfinity::PositiveInfinity =&gt; {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
                     .with_message(<span class="string">&quot;Target offset cannot be Infinity&quot;</span>)
                     .into());
             }
-            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
         };
 
         <span class="comment">// 16. If srcLength + targetOffset &gt; targetLength, throw a RangeError exception.
@@ -5729,7 +5986,7 @@
         // a. If srcBuffer.[[ArrayBufferData]] and targetBuffer.[[ArrayBufferData]] are the same Shared Data Block values, let same be true; else let same be false.
 
         // 19. Else, let same be SameValue(srcBuffer, targetBuffer).
-        </span><span class="kw">let </span>same = JsObject::equals(<span class="kw-2">&amp;</span>src_buffer_obj, target_buffer_obj);
+        </span><span class="kw">let </span>same = JsObject::equals(<span class="kw-2">&amp;</span>src_buffer_obj, <span class="kw-2">&amp;</span>target_buffer_obj);
 
         <span class="comment">// 20. If same is true, then
         </span><span class="kw">let </span><span class="kw-2">mut </span>src_byte_index = <span class="kw">if </span>same {
@@ -5738,22 +5995,11 @@
 
             <span class="comment">// b. Set srcBuffer to ? CloneArrayBuffer(srcBuffer, srcByteOffset, srcByteLength, %ArrayBuffer%).
             // c. NOTE: %ArrayBuffer% is used to clone srcBuffer because is it known to not have any observable side-effects.
-            </span><span class="kw">let </span>array_buffer_constructor = context
-                .intrinsics()
-                .constructors()
-                .array_buffer()
-                .constructor()
-                .into();
-            <span class="kw">let </span>s = src_buffer_obj
+            </span><span class="kw">let </span>s = src_buffer_obj
                 .borrow()
                 .as_array_buffer()
                 .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>)
-                .clone_array_buffer(
-                    src_byte_offset,
-                    src_byte_length,
-                    <span class="kw-2">&amp;</span>array_buffer_constructor,
-                    context,
-                )<span class="question-mark">?</span>;
+                .clone_array_buffer(src_byte_offset, src_byte_length, context)<span class="question-mark">?</span>;
             src_buffer_obj = s;
 
             <span class="comment">// d. Let srcByteIndex be 0.
@@ -5763,6 +6009,8 @@
         </span><span class="kw">else </span>{
             src_byte_offset
         };
+
+        drop(source_borrow);
 
         <span class="comment">// 22. Let targetByteIndex be targetOffset × targetElementSize + targetByteOffset.
         </span><span class="kw">let </span><span class="kw-2">mut </span>target_byte_index = target_offset * target_element_size + target_byte_offset;
@@ -5856,116 +6104,69 @@
     /// [spec]: https://tc39.es/ecma262/#sec-settypedarrayfromarraylike
     </span><span class="kw">fn </span>set_typed_array_from_array_like(
         target: <span class="kw-2">&amp;</span>JsObject,
-        target_offset: IntegerOrInfinity,
+        target_offset: <span class="kw-2">&amp;</span>U64OrPositiveInfinity,
         source: <span class="kw-2">&amp;</span>JsValue,
         context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
     ) -&gt; JsResult&lt;()&gt; {
-        <span class="kw">let </span>target_borrow = target.borrow();
-        <span class="kw">let </span>target_array = target_borrow
-            .as_typed_array()
-            .expect(<span class="string">&quot;Target must be a typed array&quot;</span>);
+        <span class="kw">let </span>target_length = {
+            <span class="kw">let </span>target_borrow = target.borrow();
+            <span class="kw">let </span>target_array = target_borrow
+                .as_typed_array()
+                .expect(<span class="string">&quot;Target must be a typed array&quot;</span>);
 
-        <span class="comment">// 1. Let targetBuffer be target.[[ViewedArrayBuffer]].
-        // 2. If IsDetachedBuffer(targetBuffer) is true, throw a TypeError exception.
-        </span><span class="kw">if </span>target_array.is_detached() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                .with_message(<span class="string">&quot;Buffer of the typed array is detached&quot;</span>)
-                .into());
-        }
-
-        <span class="comment">// 3. Let targetLength be target.[[ArrayLength]].
-        </span><span class="kw">let </span>target_length = target_array.array_length();
-
-        <span class="comment">// 4. Let targetName be the String value of target.[[TypedArrayName]].
-        // 6. Let targetType be the Element Type value in Table 73 for targetName.
-        </span><span class="kw">let </span>target_name = target_array.typed_array_name();
-
-        <span class="comment">// 5. Let targetElementSize be the Element Size value specified in Table 73 for targetName.
-        </span><span class="kw">let </span>target_element_size = target_name.element_size();
-
-        <span class="comment">// 7. Let targetByteOffset be target.[[ByteOffset]].
-        </span><span class="kw">let </span>target_byte_offset = target_array.byte_offset();
-
-        <span class="comment">// 8. Let src be ? ToObject(source).
-        </span><span class="kw">let </span>src = source.to_object(context)<span class="question-mark">?</span>;
-
-        <span class="comment">// 9. Let srcLength be ? LengthOfArrayLike(src).
-        </span><span class="kw">let </span>src_length = src.length_of_array_like(context)<span class="question-mark">?</span>;
-
-        <span class="kw">let </span>target_offset = <span class="kw">match </span>target_offset {
-            <span class="comment">// 10. If targetOffset is +∞, throw a RangeError exception.
-            </span>IntegerOrInfinity::PositiveInfinity =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
-                    .with_message(<span class="string">&quot;Target offset cannot be Infinity&quot;</span>)
-                    .into())
+            <span class="comment">// 1. Let targetBuffer be target.[[ViewedArrayBuffer]].
+            // 2. If IsDetachedBuffer(targetBuffer) is true, throw a TypeError exception.
+            </span><span class="kw">if </span>target_array.is_detached() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
+                    .with_message(<span class="string">&quot;Buffer of the typed array is detached&quot;</span>)
+                    .into());
             }
-            IntegerOrInfinity::Integer(i) <span class="kw">if </span>i &gt;= <span class="number">0 </span>=&gt; i <span class="kw">as </span>u64,
-            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
+
+            <span class="comment">// 3. Let targetLength be target.[[ArrayLength]].
+            </span>target_array.array_length()
         };
 
-        <span class="comment">// 11. If srcLength + targetOffset &gt; targetLength, throw a RangeError exception.
+        <span class="comment">// 4. Let src be ? ToObject(source).
+        </span><span class="kw">let </span>src = source.to_object(context)<span class="question-mark">?</span>;
+
+        <span class="comment">// 5. Let srcLength be ? LengthOfArrayLike(src).
+        </span><span class="kw">let </span>src_length = src.length_of_array_like(context)<span class="question-mark">?</span>;
+
+        <span class="comment">// 6. If targetOffset = +∞, throw a RangeError exception.
+        </span><span class="kw">let </span>target_offset = <span class="kw">match </span>target_offset {
+            U64OrPositiveInfinity::U64(target_offset) =&gt; target_offset,
+            U64OrPositiveInfinity::PositiveInfinity =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
+                    .with_message(<span class="string">&quot;Target offset cannot be positive infinity&quot;</span>)
+                    .into())
+            }
+        };
+
+        <span class="comment">// 7. If srcLength + targetOffset &gt; targetLength, throw a RangeError exception.
         </span><span class="kw">if </span>src_length + target_offset &gt; target_length {
             <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
                 .with_message(<span class="string">&quot;Source object and target offset longer than target typed array&quot;</span>)
                 .into());
         }
 
-        <span class="comment">// 12. Let targetByteIndex be targetOffset × targetElementSize + targetByteOffset.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>target_byte_index = target_offset * target_element_size + target_byte_offset;
-
-        <span class="comment">// 13. Let k be 0.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>k = <span class="number">0</span>;
-
-        <span class="comment">// 14. Let limit be targetByteIndex + targetElementSize × srcLength.
-        </span><span class="kw">let </span>limit = target_byte_index + target_element_size * src_length;
-
-        <span class="comment">// 15. Repeat, while targetByteIndex &lt; limit,
-        </span><span class="kw">while </span>target_byte_index &lt; limit {
+        <span class="comment">// 8. Let k be 0.
+        // 9. Repeat, while k &lt; srcLength,
+        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..src_length {
             <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
             // b. Let value be ? Get(src, Pk).
             </span><span class="kw">let </span>value = src.get(k, context)<span class="question-mark">?</span>;
 
-            <span class="comment">// c. If target.[[ContentType]] is BigInt, set value to ? ToBigInt(value).
-            // d. Otherwise, set value to ? ToNumber(value).
-            </span><span class="kw">let </span>value = <span class="kw">if </span>target_name.content_type() == ContentType::BigInt {
-                value.to_bigint(context)<span class="question-mark">?</span>.into()
-            } <span class="kw">else </span>{
-                value.to_number(context)<span class="question-mark">?</span>.into()
-            };
+            <span class="comment">// c. Let targetIndex be 𝔽(targetOffset + k).
+            </span><span class="kw">let </span>target_index = target_offset + k;
 
-            <span class="kw">let </span>target_buffer_obj = target_array
-                .viewed_array_buffer()
-                .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>);
-            <span class="kw">let </span><span class="kw-2">mut </span>target_buffer_obj_borrow = target_buffer_obj.borrow_mut();
-            <span class="kw">let </span>target_buffer = target_buffer_obj_borrow
-                .as_array_buffer_mut()
-                .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>);
+            <span class="comment">// d. Perform ? IntegerIndexedElementSet(target, targetIndex, value).
+            </span>integer_indexed_element_set(target, target_index <span class="kw">as </span>f64, <span class="kw-2">&amp;</span>value, context)<span class="question-mark">?</span>;
 
-            <span class="comment">// e. If IsDetachedBuffer(targetBuffer) is true, throw a TypeError exception.
-            </span><span class="kw">if </span>target_buffer.is_detached_buffer() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                    .with_message(<span class="string">&quot;Cannot set value on detached array buffer&quot;</span>)
-                    .into());
-            }
+            <span class="comment">// e. Set k to k + 1.
+        </span>}
 
-            <span class="comment">// f. Perform SetValueInBuffer(targetBuffer, targetByteIndex, targetType, value, true, Unordered).
-            </span>target_buffer.set_value_in_buffer(
-                target_byte_index,
-                target_name,
-                <span class="kw-2">&amp;</span>value,
-                SharedMemoryOrder::Unordered,
-                <span class="prelude-val">None</span>,
-                context,
-            )<span class="question-mark">?</span>;
-
-            <span class="comment">// g. Set k to k + 1.
-            </span>k += <span class="number">1</span>;
-
-            <span class="comment">// h. Set targetByteIndex to targetByteIndex + targetElementSize.
-            </span>target_byte_index += target_element_size;
-        }
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="comment">// 10. Return unused.
+        </span><span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// `23.2.3.25 %TypedArray%.prototype.slice ( start, end )`
@@ -6047,13 +6248,21 @@
 
             <span class="comment">// b. Let srcName be the String value of O.[[TypedArrayName]].
             // c. Let srcType be the Element Type value in Table 73 for srcName.
-            // d. Let targetName be the String value of A.[[TypedArrayName]].
+            </span><span class="kw">let </span>src_type = o.typed_array_name();
+
+            <span class="comment">// d. Let targetName be the String value of A.[[TypedArrayName]].
             // e. Let targetType be the Element Type value in Table 73 for targetName.
-            // f. If srcType is different from targetType, then
+            </span><span class="kw">let </span>target_type = a_array.typed_array_name();
+
+            <span class="comment">// f. If srcType is different from targetType, then
             </span><span class="attr">#[allow(clippy::if_not_else)]
-            </span><span class="kw">if </span>o.typed_array_name() != a_array.typed_array_name() {
+            </span><span class="kw">if </span>src_type != target_type {
+                drop(obj_borrow);
+                drop(a_borrow);
+
                 <span class="comment">// i. Let n be 0.
                 </span><span class="kw">let </span><span class="kw-2">mut </span>n = <span class="number">0</span>;
+
                 <span class="comment">// ii. Repeat, while k &lt; final,
                 </span><span class="kw">while </span>k &lt; r#final {
                     <span class="comment">// 1. Let Pk be ! ToString(𝔽(k)).
@@ -6132,10 +6341,13 @@
                     <span class="comment">// 4. Set targetByteIndex to targetByteIndex + 1.
                     </span>target_byte_index += <span class="number">1</span>;
                 }
-            }
-        }
 
-        drop(a_borrow);
+                drop(target_buffer_obj_borrow);
+                drop(a_borrow);
+            }
+        } <span class="kw">else </span>{
+            drop(a_borrow);
+        }
 
         <span class="comment">// 15. Return A.
         </span><span class="prelude-val">Ok</span>(a.into())
@@ -6169,6 +6381,8 @@
 
         <span class="comment">// 3. Let len be O.[[ArrayLength]].
         </span><span class="kw">let </span>len = o.array_length();
+
+        drop(obj_borrow);
 
         <span class="comment">// 4. If IsCallable(callbackfn) is false, throw a TypeError exception.
         </span><span class="kw">let </span>callback_fn = <span class="kw">match </span>args.get_or_undefined(<span class="number">0</span>).as_object() {
@@ -6230,165 +6444,64 @@
         };
 
         <span class="comment">// 2. Let obj be the this value.
+        // 3. Perform ? ValidateTypedArray(obj).
+        // 4. Let len be obj.[[ArrayLength]].
         </span><span class="kw">let </span>obj = this.as_object().ok_or_else(|| {
             JsNativeError::typ()
                 .with_message(<span class="string">&quot;TypedArray.sort must be called on typed array object&quot;</span>)
         })<span class="question-mark">?</span>;
-
-        <span class="comment">// 4. Let buffer be obj.[[ViewedArrayBuffer]].
-        // 5. Let len be obj.[[ArrayLength]].
-        </span><span class="kw">let </span>(buffer, len) =
+        <span class="kw">let </span>len =
             {
-                <span class="comment">// 3. Perform ? ValidateTypedArray(obj).
-                </span><span class="kw">let </span>obj_borrow = obj.borrow();
+                <span class="kw">let </span>obj_borrow = obj.borrow();
                 <span class="kw">let </span>o = obj_borrow.as_typed_array().ok_or_else(|| {
                     JsNativeError::typ()
                         .with_message(<span class="string">&quot;TypedArray.sort must be called on typed array object&quot;</span>)
                 })<span class="question-mark">?</span>;
                 <span class="kw">if </span>o.is_detached() {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ().with_message(
-                    <span class="string">&quot;TypedArray.sort called on typed array object with detached array buffer&quot;</span>,
-                ).into());
+                <span class="string">&quot;TypedArray.sort called on typed array object with detached array buffer&quot;</span>,
+            ).into());
                 }
 
-                (
-                    o.viewed_array_buffer()
-                        .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>)
-                        .clone(),
-                    o.array_length(),
-                )
+                o.array_length()
             };
 
-        <span class="comment">// 4. Let items be a new empty List.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>items = Vec::with_capacity(len <span class="kw">as </span>usize);
-
-        <span class="comment">// 5. Let k be 0.
-        // 6. Repeat, while k &lt; len,
-        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..len {
-            <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
-            // b. Let kPresent be ? HasProperty(obj, Pk).
-            // c. If kPresent is true, then
-            </span><span class="kw">if </span>obj.has_property(k, context)<span class="question-mark">? </span>{
-                <span class="comment">// i. Let kValue be ? Get(obj, Pk).
-                </span><span class="kw">let </span>k_val = obj.get(k, context)<span class="question-mark">?</span>;
-                <span class="comment">// ii. Append kValue to items.
-                </span>items.push(k_val);
-            }
-            <span class="comment">// d. Set k to k + 1.
-        </span>}
-
-        <span class="comment">// 7. Let itemCount be the number of elements in items.
-        </span><span class="kw">let </span>item_count = items.len();
-
-        <span class="kw">let </span>sort_compare = |x: <span class="kw-2">&amp;</span>JsValue,
+        <span class="comment">// 5. NOTE: The following closure performs a numeric comparison rather than the string comparison used in 23.1.3.30.
+        // 6. Let SortCompare be a new Abstract Closure with parameters (x, y) that captures comparefn and performs the following steps when called:
+        </span><span class="kw">let </span>sort_compare = |x: <span class="kw-2">&amp;</span>JsValue,
                             y: <span class="kw-2">&amp;</span>JsValue,
                             compare_fn: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>JsObject&gt;,
                             context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;|
          -&gt; JsResult&lt;Ordering&gt; {
-            <span class="comment">// 1. Assert: Both Type(x) and Type(y) are Number or both are BigInt.
-            // 2. If comparefn is not undefined, then
-            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(obj) = compare_fn {
-                <span class="comment">// a. Let v be ? ToNumber(? Call(comparefn, undefined, « x, y »)).
-                </span><span class="kw">let </span>v = obj
-                    .call(<span class="kw-2">&amp;</span>JsValue::undefined(), <span class="kw-2">&amp;</span>[x.clone(), y.clone()], context)<span class="question-mark">?
-                    </span>.to_number(context)<span class="question-mark">?</span>;
-
-                <span class="comment">// b. If IsDetachedBuffer(buffer) is true, throw a TypeError exception.
-                </span><span class="kw">if </span>buffer
-                    .borrow()
-                    .as_array_buffer()
-                    .expect(<span class="string">&quot;Must be array buffer&quot;</span>)
-                    .is_detached_buffer()
-                {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                        .with_message(<span class="string">&quot;Cannot sort typed array with detached buffer&quot;</span>)
-                        .into());
-                }
-
-                <span class="comment">// c. If v is NaN, return +0𝔽.
-                // d. Return v.
-                </span><span class="kw">return </span><span class="prelude-val">Ok</span>(v.partial_cmp(<span class="kw-2">&amp;</span><span class="number">0.0</span>).unwrap_or(Ordering::Equal));
-            }
-
-            <span class="kw">if let </span>(JsValue::BigInt(x), JsValue::BigInt(y)) = (x, y) {
-                <span class="comment">// 6. If x &lt; y, return -1𝔽.
-                </span><span class="kw">if </span>x &lt; y {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
-                }
-
-                <span class="comment">// 7. If x &gt; y, return 1𝔽.
-                </span><span class="kw">if </span>x &gt; y {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
-                }
-
-                <span class="comment">// 8. If x is -0𝔽 and y is +0𝔽, return -1𝔽.
-                </span><span class="kw">if </span>x.is_zero()
-                    &amp;&amp; y.is_zero()
-                    &amp;&amp; x.as_inner().is_negative()
-                    &amp;&amp; y.as_inner().is_positive()
-                {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
-                }
-
-                <span class="comment">// 9. If x is +0𝔽 and y is -0𝔽, return 1𝔽.
-                </span><span class="kw">if </span>x.is_zero()
-                    &amp;&amp; y.is_zero()
-                    &amp;&amp; x.as_inner().is_positive()
-                    &amp;&amp; y.as_inner().is_negative()
-                {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
-                }
-            } <span class="kw">else </span>{
-                <span class="kw">let </span>x = x
-                    .as_number()
-                    .expect(<span class="string">&quot;Typed array can only contain number or bigint&quot;</span>);
-                <span class="kw">let </span>y = y
-                    .as_number()
-                    .expect(<span class="string">&quot;Typed array can only contain number or bigint&quot;</span>);
-
-                <span class="comment">// 3. If x and y are both NaN, return +0𝔽.
-                </span><span class="kw">if </span>x.is_nan() &amp;&amp; y.is_nan() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Equal);
-                }
-
-                <span class="comment">// 4. If x is NaN, return 1𝔽.
-                </span><span class="kw">if </span>x.is_nan() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
-                }
-
-                <span class="comment">// 5. If y is NaN, return -1𝔽.
-                </span><span class="kw">if </span>y.is_nan() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
-                }
-
-                <span class="comment">// 6. If x &lt; y, return -1𝔽.
-                </span><span class="kw">if </span>x &lt; y {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
-                }
-
-                <span class="comment">// 7. If x &gt; y, return 1𝔽.
-                </span><span class="kw">if </span>x &gt; y {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
-                }
-
-                <span class="comment">// 8. If x is -0𝔽 and y is +0𝔽, return -1𝔽.
-                </span><span class="kw">if </span>x.is_zero() &amp;&amp; y.is_zero() &amp;&amp; x.is_sign_negative() &amp;&amp; y.is_sign_positive() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
-                }
-
-                <span class="comment">// 9. If x is +0𝔽 and y is -0𝔽, return 1𝔽.
-                </span><span class="kw">if </span>x.is_zero() &amp;&amp; y.is_zero() &amp;&amp; x.is_sign_positive() &amp;&amp; y.is_sign_negative() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
-                }
-            }
-
-            <span class="comment">// 10. Return +0𝔽.
-            </span><span class="prelude-val">Ok</span>(Ordering::Equal)
+            <span class="comment">// a. Return ? CompareTypedArrayElements(x, y, comparefn).
+            </span>compare_typed_array_elements(x, y, compare_fn, context)
         };
 
-        <span class="comment">// 8. Sort items using an implementation-defined sequence of calls to SortCompare.
-        // If any such call returns an abrupt completion, stop before performing any further
-        // calls to SortCompare or steps in this algorithm and return that completion.
+        <span class="comment">// Note: This step is currently inlined.
+        // 7. Let sortedList be ? SortIndexedProperties(obj, len, SortCompare, read-through-holes).
+        // 1. Let items be a new empty List.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>items = Vec::with_capacity(len <span class="kw">as </span>usize);
+
+        <span class="comment">// 2. Let k be 0.
+        // 3. Repeat, while k &lt; len,
+        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..len {
+            <span class="comment">// a. Let Pk be ! ToString(𝔽(k)).
+            // b. If holes is skip-holes, then
+            // i. Let kRead be ? HasProperty(obj, Pk).
+            // c. Else,
+            // i. Assert: holes is read-through-holes.
+            // ii. Let kRead be true.
+            // d. If kRead is true, then
+            // i. Let kValue be ? Get(obj, Pk).
+            </span><span class="kw">let </span>k_value = obj.get(k, context)<span class="question-mark">?</span>;
+
+            <span class="comment">// ii. Append kValue to items.
+            </span>items.push(k_value);
+            <span class="comment">// e. Set k to k + 1.
+        </span>}
+
+        <span class="comment">// 4. Sort items using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare and return that Completion Record.
+        // 5. Return items.
         </span><span class="kw">let </span><span class="kw-2">mut </span>sort_err = <span class="prelude-val">Ok</span>(());
         items.sort_by(|x, y| {
             <span class="kw">if </span>sort_err.is_ok() {
@@ -6402,22 +6515,17 @@
         });
         sort_err<span class="question-mark">?</span>;
 
-        <span class="comment">// 9. Let j be 0.
-        // 10. Repeat, while j &lt; itemCount,
+        <span class="comment">// 8. Let j be 0.
+        // 9. Repeat, while j &lt; len,
         </span><span class="kw">for </span>(j, item) <span class="kw">in </span>items.into_iter().enumerate() {
-            <span class="comment">// a. Perform ? Set(obj, ! ToString(𝔽(j)), items[j], true).
-            </span>obj.set(j, item, <span class="bool-val">true</span>, context)<span class="question-mark">?</span>;
+            <span class="comment">// a. Perform ! Set(obj, ! ToString(𝔽(j)), sortedList[j], true).
+            </span>obj.set(j, item, <span class="bool-val">true</span>, context)
+                .expect(<span class="string">&quot;cannot fail per spec&quot;</span>);
+
             <span class="comment">// b. Set j to j + 1.
         </span>}
 
-        <span class="comment">// 11. Repeat, while j &lt; len,
-        </span><span class="kw">for </span>j <span class="kw">in </span>item_count..(len <span class="kw">as </span>usize) {
-            <span class="comment">// a. Perform ? DeletePropertyOrThrow(obj, ! ToString(𝔽(j))).
-            </span>obj.delete_property_or_throw(j, context)<span class="question-mark">?</span>;
-            <span class="comment">// b. Set j to j + 1.
-        </span>}
-
-        <span class="comment">// 12. Return obj.
+        <span class="comment">// 10. Return obj.
         </span><span class="prelude-val">Ok</span>(obj.clone().into())
     }
 
@@ -6508,9 +6616,97 @@
         </span>.into())
     }
 
-    <span class="comment">// TODO: 23.2.3.29 %TypedArray%.prototype.toLocaleString ( [ reserved1 [ , reserved2 ] ] )
+    <span class="doccomment">/// `%TypedArray%.prototype.toLocaleString ( [ reserved1 [ , reserved2 ] ] )`
+    /// `Array.prototype.toLocaleString ( [ locales [ , options ] ] )`
+    ///
+    /// More information:
+    ///  - [ECMAScript reference][spec]
+    ///  - [ECMA-402 reference][spec-402]
+    ///
+    /// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring
+    /// [spec-402]: https://402.ecma-international.org/10.0/#sup-array.prototype.tolocalestring
+    </span><span class="kw">fn </span>to_locale_string(
+        this: <span class="kw-2">&amp;</span>JsValue,
+        args: <span class="kw-2">&amp;</span>[JsValue],
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; JsResult&lt;JsValue&gt; {
+        <span class="comment">// 1. Let array be ? ToObject(this value).
+        // Note: ValidateTypedArray is applied to the this value prior to evaluating the algorithm.
+        </span><span class="kw">let </span>array = this.as_object().ok_or_else(|| {
+            JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+        })<span class="question-mark">?</span>;
 
-    </span><span class="doccomment">/// `23.2.3.31 %TypedArray%.prototype.values ( )`
+        <span class="kw">let </span>len = {
+            <span class="kw">let </span>obj_borrow = array.borrow();
+            <span class="kw">let </span>o = obj_borrow.as_typed_array().ok_or_else(|| {
+                JsNativeError::typ().with_message(<span class="string">&quot;Value is not a typed array object&quot;</span>)
+            })<span class="question-mark">?</span>;
+            <span class="kw">if </span>o.is_detached() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
+                    .with_message(<span class="string">&quot;Buffer of the typed array is detached&quot;</span>)
+                    .into());
+            }
+
+            <span class="comment">// 2. Let len be array.[[ArrayLength]]
+            </span>o.array_length()
+        };
+
+        <span class="comment">// 3. Let separator be the implementation-defined list-separator String value
+        //    appropriate for the host environment&#39;s current locale (such as &quot;, &quot;).
+        </span><span class="kw">let </span>separator = {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;intl&quot;</span>)]
+            </span>{
+                <span class="comment">// TODO: this should eventually return a locale-sensitive separator.
+                </span><span class="macro">utf16!</span>(<span class="string">&quot;, &quot;</span>)
+            }
+
+            <span class="attr">#[cfg(not(feature = <span class="string">&quot;intl&quot;</span>))]
+            </span>{
+                <span class="macro">utf16!</span>(<span class="string">&quot;, &quot;</span>)
+            }
+        };
+
+        <span class="comment">// 4. Let R be the empty String.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>r = Vec::new();
+
+        <span class="comment">// 5. Let k be 0.
+        // 6. Repeat, while k &lt; len,
+        </span><span class="kw">for </span>k <span class="kw">in </span><span class="number">0</span>..len {
+            <span class="comment">// a. If k &gt; 0, then
+            </span><span class="kw">if </span>k &gt; <span class="number">0 </span>{
+                <span class="comment">// i. Set R to the string-concatenation of R and separator.
+                </span>r.extend_from_slice(separator);
+            }
+
+            <span class="comment">// b. Let nextElement be ? Get(array, ! ToString(k)).
+            </span><span class="kw">let </span>next_element = array.get(k, context)<span class="question-mark">?</span>;
+
+            <span class="comment">// c. If nextElement is not undefined or null, then
+            </span><span class="kw">if </span>!next_element.is_null_or_undefined() {
+                <span class="comment">// i. Let S be ? ToString(? Invoke(nextElement, &quot;toLocaleString&quot;, « locales, options »)).
+                </span><span class="kw">let </span>s = next_element
+                    .invoke(
+                        <span class="macro">utf16!</span>(<span class="string">&quot;toLocaleString&quot;</span>),
+                        <span class="kw-2">&amp;</span>[
+                            args.get_or_undefined(<span class="number">0</span>).clone(),
+                            args.get_or_undefined(<span class="number">1</span>).clone(),
+                        ],
+                        context,
+                    )<span class="question-mark">?
+                    </span>.to_string(context)<span class="question-mark">?</span>;
+
+                <span class="comment">// ii. Set R to the string-concatenation of R and S.
+                </span>r.extend_from_slice(<span class="kw-2">&amp;</span>s);
+            }
+
+            <span class="comment">// d. Increase k by 1.
+        </span>}
+
+        <span class="comment">// 7. Return R.
+        </span><span class="prelude-val">Ok</span>(<span class="macro">js_string!</span>(r).into())
+    }
+
+    <span class="doccomment">/// `23.2.3.31 %TypedArray%.prototype.values ( )`
     ///
     /// More information:
     ///  - [ECMAScript reference][spec]
@@ -6804,86 +7000,82 @@
                 .with_message(<span class="string">&quot;Cannot initialize typed array from detached buffer&quot;</span>)
                 .into());
         }
+
+        <span class="comment">// 3. Let elementType be TypedArrayElementType(O).
+        </span><span class="kw">let </span>element_type = o_array.typed_array_name();
+
+        <span class="comment">// 4. Let elementSize be TypedArrayElementSize(O).
+        </span><span class="kw">let </span>element_size = element_type.element_size();
+
+        <span class="comment">// 5. Let srcType be TypedArrayElementType(srcArray).
+        </span><span class="kw">let </span>src_type = src_array.typed_array_name();
+
+        <span class="comment">// 6. Let srcElementSize be TypedArrayElementSize(srcArray).
+        </span><span class="kw">let </span>src_element_size = src_type.element_size();
+
+        <span class="comment">// 7. Let srcByteOffset be srcArray.[[ByteOffset]].
+        </span><span class="kw">let </span>src_byte_offset = src_array.byte_offset();
+
+        <span class="comment">// 8. Let elementLength be srcArray.[[ArrayLength]].
+        </span><span class="kw">let </span>element_length = src_array.array_length();
+
+        <span class="comment">// 9. Let byteLength be elementSize × elementLength.
+        </span><span class="kw">let </span>byte_length = element_size * element_length;
+
         <span class="kw">let </span>src_data_obj = src_array
             .viewed_array_buffer()
             .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>);
-
-        <span class="comment">// 3. Let constructorName be the String value of O.[[TypedArrayName]].
-        // 4. Let elementType be the Element Type value in Table 73 for constructorName.
-        // 10. Let elementSize be the Element Size value specified in Table 73 for constructorName.
-        </span><span class="kw">let </span>constructor_name = o_array.typed_array_name();
-
-        <span class="comment">// 5. Let elementLength be srcArray.[[ArrayLength]].
-        </span><span class="kw">let </span>element_length = src_array.array_length();
-
-        <span class="comment">// 6. Let srcName be the String value of srcArray.[[TypedArrayName]].
-        // 7. Let srcType be the Element Type value in Table 73 for srcName.
-        // 8. Let srcElementSize be the Element Size value specified in Table 73 for srcName.
-        </span><span class="kw">let </span>src_name = src_array.typed_array_name();
-
-        <span class="comment">// 9. Let srcByteOffset be srcArray.[[ByteOffset]].
-        </span><span class="kw">let </span>src_byte_offset = src_array.byte_offset();
-
-        <span class="comment">// 11. Let byteLength be elementSize × elementLength.
-        </span><span class="kw">let </span>byte_length = constructor_name.element_size() * element_length;
-
-        <span class="comment">// 12. If IsSharedArrayBuffer(srcData) is false, then
-        // a. Let bufferConstructor be ? SpeciesConstructor(srcData, %ArrayBuffer%).
-        // TODO: Shared Array Buffer
-        // 13. Else,
-        // a. Let bufferConstructor be %ArrayBuffer%.
-        </span><span class="kw">let </span>buffer_constructor =
-            src_data_obj.species_constructor(StandardConstructors::array_buffer, context)<span class="question-mark">?</span>;
-
         <span class="kw">let </span>src_data_obj_b = src_data_obj.borrow();
         <span class="kw">let </span>src_data = src_data_obj_b
             .as_array_buffer()
             .expect(<span class="string">&quot;Already checked for detached buffer&quot;</span>);
 
-        <span class="comment">// 14. If elementType is the same as srcType, then
-        </span><span class="kw">let </span>data = <span class="kw">if </span>constructor_name == src_name {
-            <span class="comment">// a. Let data be ? CloneArrayBuffer(srcData, srcByteOffset, byteLength, bufferConstructor).
-            </span>src_data.clone_array_buffer(
-                src_byte_offset,
+        <span class="comment">// 10. If elementType is srcType, then
+        </span><span class="kw">let </span>data = <span class="kw">if </span>element_type == src_type {
+            <span class="comment">// a. Let data be ? CloneArrayBuffer(srcData, srcByteOffset, byteLength).
+            </span>src_data.clone_array_buffer(src_byte_offset, byte_length, context)<span class="question-mark">?
+        </span>}
+        <span class="comment">// 11. Else,
+        </span><span class="kw">else </span>{
+            <span class="comment">// a. Let data be ? AllocateArrayBuffer(%ArrayBuffer%, byteLength).
+            </span><span class="kw">let </span>data_obj = ArrayBuffer::allocate(
+                <span class="kw-2">&amp;</span>context
+                    .realm()
+                    .intrinsics()
+                    .constructors()
+                    .array_buffer()
+                    .constructor()
+                    .into(),
                 byte_length,
-                <span class="kw-2">&amp;</span>buffer_constructor.into(),
                 context,
-            )<span class="question-mark">?
-        </span><span class="comment">// 15. Else,
-        </span>} <span class="kw">else </span>{
-            <span class="comment">// a. Let data be ? AllocateArrayBuffer(bufferConstructor, byteLength).
-            </span><span class="kw">let </span>data_obj = ArrayBuffer::allocate(<span class="kw-2">&amp;</span>buffer_constructor.into(), byte_length, context)<span class="question-mark">?</span>;
+            )<span class="question-mark">?</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>data_obj_b = data_obj.borrow_mut();
             <span class="kw">let </span>data = data_obj_b
                 .as_array_buffer_mut()
                 .expect(<span class="string">&quot;Must be ArrayBuffer&quot;</span>);
 
-            <span class="comment">// b. If IsDetachedBuffer(srcData) is true, throw a TypeError exception.
-            </span><span class="kw">if </span>src_data.is_detached_buffer() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
-                    .with_message(<span class="string">&quot;Cannot initialize typed array from detached buffer&quot;</span>)
-                    .into());
-            }
-
-            <span class="comment">// c. If srcArray.[[ContentType]] ≠ O.[[ContentType]], throw a TypeError exception.
-            </span><span class="kw">if </span>src_name.content_type() != constructor_name.content_type() {
+            <span class="comment">// b. If srcArray.[[ContentType]] is not O.[[ContentType]], throw a TypeError exception.
+            </span><span class="kw">if </span>src_type.content_type() != element_type.content_type() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
                     .with_message(<span class="string">&quot;Cannot initialize typed array from different content type&quot;</span>)
                     .into());
             }
 
-            <span class="comment">// d. Let srcByteIndex be srcByteOffset.
+            <span class="comment">// c. Let srcByteIndex be srcByteOffset.
             </span><span class="kw">let </span><span class="kw-2">mut </span>src_byte_index = src_byte_offset;
-            <span class="comment">// e. Let targetByteIndex be 0.
+
+            <span class="comment">// d. Let targetByteIndex be 0.
             </span><span class="kw">let </span><span class="kw-2">mut </span>target_byte_index = <span class="number">0</span>;
-            <span class="comment">// f. Let count be elementLength.
+
+            <span class="comment">// e. Let count be elementLength.
             </span><span class="kw">let </span><span class="kw-2">mut </span>count = element_length;
-            <span class="comment">// g. Repeat, while count &gt; 0,
+
+            <span class="comment">// f. Repeat, while count &gt; 0,
             </span><span class="kw">while </span>count &gt; <span class="number">0 </span>{
                 <span class="comment">// i. Let value be GetValueFromBuffer(srcData, srcByteIndex, srcType, true, Unordered).
                 </span><span class="kw">let </span>value = src_data.get_value_from_buffer(
                     src_byte_index,
-                    src_name,
+                    src_type,
                     <span class="bool-val">true</span>,
                     SharedMemoryOrder::Unordered,
                     <span class="prelude-val">None</span>,
@@ -6892,7 +7084,7 @@
                 <span class="comment">// ii. Perform SetValueInBuffer(data, targetByteIndex, elementType, value, true, Unordered).
                 </span>data.set_value_in_buffer(
                     target_byte_index,
-                    constructor_name,
+                    element_type,
                     <span class="kw-2">&amp;</span>value,
                     SharedMemoryOrder::Unordered,
                     <span class="prelude-val">None</span>,
@@ -6900,32 +7092,34 @@
                 )<span class="question-mark">?</span>;
 
                 <span class="comment">// iii. Set srcByteIndex to srcByteIndex + srcElementSize.
-                </span>src_byte_index += src_name.element_size();
+                </span>src_byte_index += src_element_size;
 
                 <span class="comment">// iv. Set targetByteIndex to targetByteIndex + elementSize.
-                </span>target_byte_index += constructor_name.element_size();
+                </span>target_byte_index += element_size;
 
                 <span class="comment">// v. Set count to count - 1.
                 </span>count -= <span class="number">1</span>;
             }
+
             drop(data_obj_b);
             data_obj
         };
 
-        <span class="comment">// 16. Set O.[[ViewedArrayBuffer]] to data.
-        // 17. Set O.[[ByteLength]] to byteLength.
-        // 18. Set O.[[ByteOffset]] to 0.
-        // 19. Set O.[[ArrayLength]] to elementLength.
+        <span class="comment">// 12. Set O.[[ViewedArrayBuffer]] to data.
+        // 13. Set O.[[ByteLength]] to byteLength.
+        // 14. Set O.[[ByteOffset]] to 0.
+        // 15. Set O.[[ArrayLength]] to elementLength.
         </span>drop(o_obj);
         <span class="kw-2">*</span>o.borrow_mut().kind_mut() = ObjectKind::IntegerIndexed(IntegerIndexed::new(
             <span class="prelude-val">Some</span>(data),
-            constructor_name,
+            element_type,
             <span class="number">0</span>,
             byte_length,
             element_length,
         ));
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="comment">// 16. Return unused.
+        </span><span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// `23.2.5.1.3 InitializeTypedArrayFromArrayBuffer ( O, buffer, byteOffset, length )`
@@ -6941,45 +7135,66 @@
         length: <span class="kw-2">&amp;</span>JsValue,
         context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
     ) -&gt; JsResult&lt;()&gt; {
-        <span class="comment">// 1. Let constructorName be the String value of O.[[TypedArrayName]].
-        // 2. Let elementSize be the Element Size value specified in Table 73 for constructorName.
-        </span><span class="kw">let </span>constructor_name = o
+        <span class="comment">// 1. Let elementSize be TypedArrayElementSize(O).
+        </span><span class="kw">let </span>element_size = o
             .borrow()
             .as_typed_array()
-            .expect(<span class="string">&quot;This must be a typed array&quot;</span>)
-            .typed_array_name();
+            .expect(<span class="string">&quot;Must be a typed array&quot;</span>)
+            .typed_array_name()
+            .element_size();
 
-        <span class="comment">// 3. Let offset be ? ToIndex(byteOffset).
+        <span class="comment">// 2. Let offset be ? ToIndex(byteOffset).
         </span><span class="kw">let </span>offset = byte_offset.to_index(context)<span class="question-mark">?</span>;
 
-        <span class="comment">// 4. If offset modulo elementSize ≠ 0, throw a RangeError exception.
-        </span><span class="kw">if </span>offset % constructor_name.element_size() != <span class="number">0 </span>{
+        <span class="comment">// 3. If offset modulo elementSize ≠ 0, throw a RangeError exception.
+        </span><span class="kw">if </span>offset % element_size != <span class="number">0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
                 .with_message(<span class="string">&quot;Invalid length for typed array&quot;</span>)
                 .into());
         }
 
-        <span class="kw">let </span>buffer_byte_length = {
-            <span class="kw">let </span>buffer_obj_b = buffer.borrow();
-            <span class="kw">let </span>buffer_array = buffer_obj_b
-                .as_array_buffer()
-                .expect(<span class="string">&quot;This must be an ArrayBuffer&quot;</span>);
+        <span class="comment">// 4. If length is not undefined, then
+        </span><span class="kw">let </span>new_length = <span class="kw">if </span>length.is_undefined() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="comment">// a. Let newLength be ? ToIndex(length).
+            </span><span class="prelude-val">Some</span>(length.to_index(context)<span class="question-mark">?</span>)
+        };
 
-            <span class="comment">// 6. If IsDetachedBuffer(buffer) is true, throw a TypeError exception.
-            </span><span class="kw">if </span>buffer_array.is_detached_buffer() {
+        <span class="comment">// 5. If IsDetachedBuffer(buffer) is true, throw a TypeError exception.
+        // 6. Let bufferByteLength be buffer.[[ArrayBufferByteLength]].
+        </span><span class="kw">let </span>buffer_byte_length = {
+            <span class="kw">let </span>buffer_borrow = buffer.borrow();
+            <span class="kw">let </span>buffer_array = buffer_borrow
+                .as_array_buffer()
+                .expect(<span class="string">&quot;Must be an ArrayBuffer&quot;</span>);
+
+            <span class="kw">if </span>buffer_array.is_detached_buffer() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::typ()
                     .with_message(<span class="string">&quot;Cannot construct typed array from detached buffer&quot;</span>)
                     .into());
             }
 
-            <span class="comment">// 7. Let bufferByteLength be buffer.[[ArrayBufferByteLength]].
-            </span>buffer_array.array_buffer_byte_length()
+            buffer_array.array_buffer_byte_length()
         };
 
-        <span class="comment">// 8. If length is undefined, then
-        </span><span class="kw">let </span>new_byte_length = <span class="kw">if </span>length.is_undefined() {
+        <span class="comment">// 7. If length is undefined, then
+        // 8. Else,
+        </span><span class="kw">let </span>new_byte_length = <span class="kw">if let </span><span class="prelude-val">Some</span>(new_length) = new_length {
+            <span class="comment">// a. Let newByteLength be newLength × elementSize.
+            </span><span class="kw">let </span>new_byte_length = new_length * element_size;
+
+            <span class="comment">// b. If offset + newByteLength &gt; bufferByteLength, throw a RangeError exception.
+            </span><span class="kw">if </span>offset + new_byte_length &gt; buffer_byte_length {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
+                    .with_message(<span class="string">&quot;Invalid length for typed array&quot;</span>)
+                    .into());
+            }
+
+            new_byte_length
+        } <span class="kw">else </span>{
             <span class="comment">// a. If bufferByteLength modulo elementSize ≠ 0, throw a RangeError exception.
-            </span><span class="kw">if </span>buffer_byte_length % constructor_name.element_size() != <span class="number">0 </span>{
+            </span><span class="kw">if </span>buffer_byte_length % element_size != <span class="number">0 </span>{
                 <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
                     .with_message(<span class="string">&quot;Invalid length for typed array&quot;</span>)
                     .into());
@@ -6996,39 +7211,24 @@
             }
 
             new_byte_length <span class="kw">as </span>u64
-        <span class="comment">// 9. Else,
-        </span>} <span class="kw">else </span>{
-            <span class="comment">// 5. If length is not undefined, then
-            // a. Let newLength be ? ToIndex(length).
-
-            // a. Let newByteLength be newLength × elementSize.
-            </span><span class="kw">let </span>new_byte_length = length.to_index(context)<span class="question-mark">? </span>* constructor_name.element_size();
-
-            <span class="comment">// b. If offset + newByteLength &gt; bufferByteLength, throw a RangeError exception.
-            </span><span class="kw">if </span>offset + new_byte_length &gt; buffer_byte_length {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(JsNativeError::range()
-                    .with_message(<span class="string">&quot;Invalid length for typed array&quot;</span>)
-                    .into());
-            }
-
-            new_byte_length
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>o_obj_borrow = o.borrow_mut();
-        <span class="kw">let </span>o = o_obj_borrow
+        <span class="kw">let </span><span class="kw-2">mut </span>o_borrow = o.borrow_mut();
+        <span class="kw">let </span>o = o_borrow
             .as_typed_array_mut()
             .expect(<span class="string">&quot;This must be an ArrayBuffer&quot;</span>);
 
-        <span class="comment">// 10. Set O.[[ViewedArrayBuffer]] to buffer.
+        <span class="comment">// 9. Set O.[[ViewedArrayBuffer]] to buffer.
         </span>o.set_viewed_array_buffer(<span class="prelude-val">Some</span>(buffer));
-        <span class="comment">// 11. Set O.[[ByteLength]] to newByteLength.
+        <span class="comment">// 10. Set O.[[ByteLength]] to newByteLength.
         </span>o.set_byte_length(new_byte_length);
-        <span class="comment">// 12. Set O.[[ByteOffset]] to offset.
+        <span class="comment">// 11. Set O.[[ByteOffset]] to offset.
         </span>o.set_byte_offset(offset);
-        <span class="comment">// 13. Set O.[[ArrayLength]] to newByteLength / elementSize.
-        </span>o.set_array_length(new_byte_length / constructor_name.element_size());
+        <span class="comment">// 12. Set O.[[ArrayLength]] to newByteLength / elementSize.
+        </span>o.set_array_length(new_byte_length / element_size);
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="comment">// 13. Return unused.
+        </span><span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// `23.2.5.1.5 InitializeTypedArrayFromArrayLike ( O, arrayLike )`
@@ -7065,6 +7265,102 @@
 
         <span class="prelude-val">Ok</span>(())
     }
+}
+
+<span class="doccomment">/// `CompareTypedArrayElements ( x, y, comparefn )`
+///
+/// More information:
+///  - [ECMAScript reference][spec]
+///
+/// [spec]: https://tc39.es/ecma262/#sec-comparetypedarrayelements
+</span><span class="kw">fn </span>compare_typed_array_elements(
+    x: <span class="kw-2">&amp;</span>JsValue,
+    y: <span class="kw-2">&amp;</span>JsValue,
+    compare_fn: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>JsObject&gt;,
+    context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+) -&gt; JsResult&lt;Ordering&gt; {
+    <span class="comment">// 1. Assert: x is a Number and y is a Number, or x is a BigInt and y is a BigInt.
+
+    // 2. If comparefn is not undefined, then
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(compare_fn) = compare_fn {
+        <span class="comment">// a. Let v be ? ToNumber(? Call(comparefn, undefined, « x, y »)).
+        </span><span class="kw">let </span>v = compare_fn
+            .call(<span class="kw-2">&amp;</span>JsValue::undefined(), <span class="kw-2">&amp;</span>[x.clone(), y.clone()], context)<span class="question-mark">?
+            </span>.to_number(context)<span class="question-mark">?</span>;
+
+        <span class="comment">// b. If v is NaN, return +0𝔽.
+        </span><span class="kw">if </span>v.is_nan() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Equal);
+        }
+
+        <span class="comment">// c. Return v.
+        </span><span class="kw">if </span>v.is_sign_positive() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
+        }
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
+    }
+
+    <span class="kw">match </span>(x, y) {
+        (JsValue::BigInt(x), JsValue::BigInt(y)) =&gt; {
+            <span class="comment">// Note: Other steps are not relevant for BigInts.
+            // 6. If x &lt; y, return -1𝔽.
+            // 7. If x &gt; y, return 1𝔽.
+            // 10. Return +0𝔽.
+            </span><span class="prelude-val">Ok</span>(x.cmp(y))
+        }
+        (JsValue::Integer(x), JsValue::Integer(y)) =&gt; {
+            <span class="comment">// Note: Other steps are not relevant for integers.
+            // 6. If x &lt; y, return -1𝔽.
+            // 7. If x &gt; y, return 1𝔽.
+            // 10. Return +0𝔽.
+            </span><span class="prelude-val">Ok</span>(x.cmp(y))
+        }
+        (JsValue::Rational(x), JsValue::Rational(y)) =&gt; {
+            <span class="comment">// 3. If x and y are both NaN, return +0𝔽.
+            </span><span class="kw">if </span>x.is_nan() &amp;&amp; y.is_nan() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Equal);
+            }
+
+            <span class="comment">// 4. If x is NaN, return 1𝔽.
+            </span><span class="kw">if </span>x.is_nan() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
+            }
+
+            <span class="comment">// 5. If y is NaN, return -1𝔽.
+            </span><span class="kw">if </span>y.is_nan() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
+            }
+
+            <span class="comment">// 6. If x &lt; y, return -1𝔽.
+            </span><span class="kw">if </span>x &lt; y {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
+            }
+
+            <span class="comment">// 7. If x &gt; y, return 1𝔽.
+            </span><span class="kw">if </span>x &gt; y {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
+            }
+
+            <span class="comment">// 8. If x is -0𝔽 and y is +0𝔽, return -1𝔽.
+            </span><span class="kw">if </span>x.is_sign_negative() &amp;&amp; x.is_zero() &amp;&amp; y.is_sign_positive() &amp;&amp; y.is_zero() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Less);
+            }
+
+            <span class="comment">// 9. If x is +0𝔽 and y is -0𝔽, return 1𝔽.
+            </span><span class="kw">if </span>x.is_sign_positive() &amp;&amp; x.is_zero() &amp;&amp; y.is_sign_negative() &amp;&amp; y.is_zero() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Ordering::Greater);
+            }
+
+            <span class="comment">// 10. Return +0𝔽.
+            </span><span class="prelude-val">Ok</span>(Ordering::Equal)
+        }
+        <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;x and y must be both Numbers or BigInts&quot;</span>),
+    }
+}
+
+<span class="kw">enum </span>U64OrPositiveInfinity {
+    U64(u64),
+    PositiveInfinity,
 }
 
 <span class="doccomment">/// Names of all the typed arrays.

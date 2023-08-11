@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/property/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ba5701c5741a7b69.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0 (90c541806 2023-05-31)" data-search-js="search-e077946657036a58.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-7bfb4c59cc6bc502.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-905937fbbdc8e9ea.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f61008743c98d196.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/property/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -802,6 +802,25 @@
 <a href="#802" id="802">802</a>
 <a href="#803" id="803">803</a>
 <a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Boa&#39;s implementation of ECMAScript&#39;s Property Descriptor.
 //!
 //! The Property Descriptor type is used to explain the manipulation and reification of `Object`
@@ -895,6 +914,7 @@
     ///
     /// [spec]: https://tc39.es/ecma262/#sec-isaccessordescriptor
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>is_accessor_descriptor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.kind, DescriptorKind::Accessor { .. })
     }
@@ -906,6 +926,7 @@
     ///
     /// [spec]: https://tc39.es/ecma262/#sec-isdatadescriptor
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>is_data_descriptor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.kind, DescriptorKind::Data { .. })
     }
@@ -917,12 +938,14 @@
     ///
     /// [spec]: https://tc39.es/ecma262/#sec-isgenericdescriptor
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>is_generic_descriptor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.kind, DescriptorKind::Generic)
     }
 
     <span class="doccomment">/// Returns if the property descriptor is empty.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.is_generic_descriptor() &amp;&amp; <span class="self">self</span>.enumerable.is_none() &amp;&amp; <span class="self">self</span>.configurable.is_none()
     }
@@ -930,6 +953,7 @@
     <span class="doccomment">/// Returns if the property descriptor is enumerable.
     /// Returns `None` if the `enumerable` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>enumerable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;bool&gt; {
         <span class="self">self</span>.enumerable
     }
@@ -937,6 +961,7 @@
     <span class="doccomment">/// Returns if the property descriptor is configurable.
     /// Returns `None` if the `configurable` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>configurable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;bool&gt; {
         <span class="self">self</span>.configurable
     }
@@ -944,6 +969,7 @@
     <span class="doccomment">/// Returns if the property descriptor is writable.
     /// Returns `None` if the `writable` field is not set or the property descriptor is not a data descriptor.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>writable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;bool&gt; {
         <span class="kw">match </span><span class="self">self</span>.kind {
             DescriptorKind::Data { writable, .. } =&gt; writable,
@@ -954,6 +980,7 @@
     <span class="doccomment">/// Returns the value of the property descriptor.
     /// Returns `None` if the value is not set or the property descriptor is not a data descriptor.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>JsValue&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
             DescriptorKind::Data { value, .. } =&gt; value.as_ref(),
@@ -964,6 +991,7 @@
     <span class="doccomment">/// Returns the getter of the property descriptor.
     /// Returns `None` if the getter is not set or the property descriptor is not an accessor descriptor.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>JsValue&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
             DescriptorKind::Accessor { get, .. } =&gt; get.as_ref(),
@@ -974,6 +1002,7 @@
     <span class="doccomment">/// Returns the setter of the property descriptor.
     /// Returns `None` if the setter is not set or the property descriptor is not an accessor descriptor.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>JsValue&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.kind {
             DescriptorKind::Accessor { set, .. } =&gt; set.as_ref(),
@@ -987,6 +1016,7 @@
     ///
     /// Panics if the `enumerable` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_enumerable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.enumerable
             .expect(<span class="string">&quot;[[enumerable]] field not in property descriptor&quot;</span>)
@@ -998,6 +1028,7 @@
     ///
     /// Panics if the `configurable` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_configurable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.configurable
             .expect(<span class="string">&quot;[[configurable]] field not in property descriptor&quot;</span>)
@@ -1009,6 +1040,7 @@
     ///
     /// Panics if the `writable` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_writable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.writable()
             .expect(<span class="string">&quot;[[writable]] field not in property descriptor&quot;</span>)
@@ -1020,6 +1052,7 @@
     ///
     /// Panics if the `value` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>JsValue {
         <span class="self">self</span>.value()
             .expect(<span class="string">&quot;[[value]] field not in property descriptor&quot;</span>)
@@ -1031,6 +1064,7 @@
     ///
     /// Panics if the `getter` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>JsValue {
         <span class="self">self</span>.get()
             .expect(<span class="string">&quot;[[get]] field not in property descriptor&quot;</span>)
@@ -1042,6 +1076,7 @@
     ///
     /// Panics if the `setter` field is not set.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub fn </span>expect_set(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>JsValue {
         <span class="self">self</span>.set()
             .expect(<span class="string">&quot;[[set]] field not in property descriptor&quot;</span>)
@@ -1049,6 +1084,7 @@
 
     <span class="doccomment">/// Returns the kind of the property descriptor.
     </span><span class="attr">#[inline]
+    #[must_use]
     </span><span class="kw">pub const fn </span>kind(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DescriptorKind {
         <span class="kw-2">&amp;</span><span class="self">self</span>.kind
     }
@@ -1350,12 +1386,14 @@
     </span>}
 
     <span class="doccomment">/// Returns a reference to the currently built [`PropertyDescriptor`].
+    </span><span class="attr">#[must_use]
     </span><span class="kw">pub const fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PropertyDescriptor {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 
     <span class="doccomment">/// Consumes the builder and returns the [`PropertyDescriptor`].
-    </span><span class="attr">#[allow(clippy::missing_const_for_fn)]
+    </span><span class="attr">#[must_use]
+    #[allow(clippy::missing_const_for_fn)]
     </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; PropertyDescriptor {
         <span class="self">self</span>.inner
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/vm/opcode/generator/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-ba5701c5741a7b69.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0 (90c541806 2023-05-31)" data-search-js="search-e077946657036a58.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-7bfb4c59cc6bc502.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../static.files/source-script-905937fbbdc8e9ea.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f61008743c98d196.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/vm/opcode/generator/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -355,76 +355,174 @@
 <a href="#355" id="355">355</a>
 <a href="#356" id="356">356</a>
 <a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
 </pre></div><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>yield_stm;
+
+<span class="kw">use </span>std::collections::VecDeque;
 
 <span class="kw">use crate</span>::{
     builtins::{
         async_generator::{AsyncGenerator, AsyncGeneratorState},
-        iterable::IteratorRecord,
+        generator::{GeneratorContext, GeneratorState},
     },
+    environments::EnvironmentStack,
     error::JsNativeError,
+    object::{ObjectData, PROTOTYPE},
     string::utf16,
     vm::{
-        call_frame::{AbruptCompletionRecord, GeneratorResumeKind},
-        opcode::{control_flow::Return, Operation},
-        CompletionType,
+        call_frame::GeneratorResumeKind,
+        opcode::{Operation, ReThrow},
+        CallFrame, CompletionType,
     },
-    Context, JsError, JsResult, JsValue,
+    Context, JsError, JsObject, JsResult,
 };
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>yield_stm::<span class="kw-2">*</span>;
+
+<span class="kw">use </span><span class="kw">super</span>::SetReturnValue;
+
+<span class="doccomment">/// `Generator` implements the Opcode Operation for `Opcode::Generator`
+///
+/// Operation:
+///  - Creates the generator object and yields.
+</span><span class="attr">#[derive(Debug, Clone, Copy)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Generator;
+
+<span class="kw">impl </span>Operation <span class="kw">for </span>Generator {
+    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;Generator&quot;</span>;
+    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - Generator&quot;</span>;
+
+    <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
+        <span class="kw">let </span>r#async = context.vm.read::&lt;u8&gt;() != <span class="number">0</span>;
+
+        <span class="kw">let </span>code_block = context.vm.frame().code_block().clone();
+        <span class="kw">let </span>pc = context.vm.frame().pc;
+        <span class="kw">let </span><span class="kw-2">mut </span>dummy_call_frame = CallFrame::new(code_block);
+        dummy_call_frame.pc = pc;
+        <span class="kw">let </span>call_frame = std::mem::replace(context.vm.frame_mut(), dummy_call_frame);
+
+        <span class="kw">let </span>this_function_object = context
+            .vm
+            .active_function
+            .clone()
+            .expect(<span class="string">&quot;active function should be set to the generator&quot;</span>);
+
+        <span class="kw">let </span>proto = this_function_object
+            .get(PROTOTYPE, context)
+            .expect(<span class="string">&quot;generator must have a prototype property&quot;</span>)
+            .as_object()
+            .map_or_else(
+                || {
+                    <span class="kw">if </span>r#async {
+                        context.intrinsics().objects().async_generator()
+                    } <span class="kw">else </span>{
+                        context.intrinsics().objects().generator()
+                    }
+                },
+                Clone::clone,
+            );
+
+        <span class="kw">let </span>global_environement = context.vm.environments.global();
+        <span class="kw">let </span>environments = std::mem::replace(
+            <span class="kw-2">&amp;mut </span>context.vm.environments,
+            EnvironmentStack::new(global_environement),
+        );
+        <span class="kw">let </span>stack = std::mem::take(<span class="kw-2">&amp;mut </span>context.vm.stack);
+
+        <span class="kw">let </span>data = <span class="kw">if </span>r#async {
+            ObjectData::async_generator(AsyncGenerator {
+                state: AsyncGeneratorState::SuspendedStart,
+                context: <span class="prelude-val">Some</span>(GeneratorContext::new(
+                    environments,
+                    stack,
+                    context.vm.active_function.clone(),
+                    call_frame,
+                    context.realm().clone(),
+                )),
+                queue: VecDeque::new(),
+            })
+        } <span class="kw">else </span>{
+            ObjectData::generator(<span class="kw">crate</span>::builtins::generator::Generator {
+                state: GeneratorState::SuspendedStart {
+                    context: GeneratorContext::new(
+                        environments,
+                        stack,
+                        context.vm.active_function.clone(),
+                        call_frame,
+                        context.realm().clone(),
+                    ),
+                },
+            })
+        };
+
+        <span class="kw">let </span>generator =
+            JsObject::from_proto_and_data_with_shared_shape(context.root_shape(), proto, data);
+
+        <span class="kw">if </span>r#async {
+            <span class="kw">let </span>gen_clone = generator.clone();
+            <span class="kw">let </span><span class="kw-2">mut </span>generator_mut = generator.borrow_mut();
+            <span class="kw">let </span>gen = generator_mut
+                .as_async_generator_mut()
+                .expect(<span class="string">&quot;must be object here&quot;</span>);
+            <span class="kw">let </span>gen_context = gen.context.as_mut().expect(<span class="string">&quot;must exist&quot;</span>);
+            <span class="comment">// TODO: try to move this to the context itself.
+            </span>gen_context
+                .call_frame
+                .as_mut()
+                .expect(<span class="string">&quot;should have a call frame initialized&quot;</span>)
+                .async_generator = <span class="prelude-val">Some</span>(gen_clone);
+        }
+
+        context.vm.push(generator);
+        <span class="prelude-val">Ok</span>(CompletionType::Yield)
+    }
+}
+
+<span class="doccomment">/// `AsyncGeneratorClose` implements the Opcode Operation for `Opcode::AsyncGeneratorClose`
+///
+/// Operation:
+///  - Close an async generator function.
+</span><span class="attr">#[derive(Debug, Clone, Copy)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>AsyncGeneratorClose;
+
+<span class="kw">impl </span>Operation <span class="kw">for </span>AsyncGeneratorClose {
+    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;AsyncGeneratorClose&quot;</span>;
+    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - AsyncGeneratorClose&quot;</span>;
+
+    <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
+        <span class="comment">// Step 3.e-g in [AsyncGeneratorStart](https://tc39.es/ecma262/#sec-asyncgeneratorstart)
+        </span><span class="kw">let </span>generator_object = context
+            .vm
+            .frame()
+            .async_generator
+            .clone()
+            .expect(<span class="string">&quot;There should be a object&quot;</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>generator_object_mut = generator_object.borrow_mut();
+        <span class="kw">let </span>generator = generator_object_mut
+            .as_async_generator_mut()
+            .expect(<span class="string">&quot;must be async generator&quot;</span>);
+
+        generator.state = AsyncGeneratorState::Completed;
+        generator.context = <span class="prelude-val">None</span>;
+
+        <span class="kw">let </span>next = generator
+            .queue
+            .pop_front()
+            .expect(<span class="string">&quot;must have item in queue&quot;</span>);
+        drop(generator_object_mut);
+
+        <span class="kw">let </span>return_value = std::mem::take(<span class="kw-2">&amp;mut </span>context.vm.frame_mut().return_value);
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(error) = context.vm.pending_exception.take() {
+            AsyncGenerator::complete_step(<span class="kw-2">&amp;</span>next, <span class="prelude-val">Err</span>(error), <span class="bool-val">true</span>, <span class="prelude-val">None</span>, context);
+        } <span class="kw">else </span>{
+            AsyncGenerator::complete_step(<span class="kw-2">&amp;</span>next, <span class="prelude-val">Ok</span>(return_value), <span class="bool-val">true</span>, <span class="prelude-val">None</span>, context);
+        }
+        AsyncGenerator::drain_queue(<span class="kw-2">&amp;</span>generator_object, context);
+
+        <span class="prelude-val">Ok</span>(CompletionType::Normal)
+    }
+}
 
 <span class="doccomment">/// `GeneratorNext` implements the Opcode Operation for `Opcode::GeneratorNext`
 ///
@@ -438,381 +536,179 @@
     <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorNext&quot;</span>;
 
     <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">match </span>context.vm.frame().generator_resume_kind {
+        <span class="kw">let </span>generator_resume_kind = context.vm.pop().to_generator_resume_kind();
+        <span class="kw">match </span>generator_resume_kind {
             GeneratorResumeKind::Normal =&gt; <span class="prelude-val">Ok</span>(CompletionType::Normal),
             GeneratorResumeKind::Throw =&gt; <span class="prelude-val">Err</span>(JsError::from_opaque(context.vm.pop())),
             GeneratorResumeKind::Return =&gt; {
-                <span class="kw">let </span>finally_entries = context
-                    .vm
-                    .frame()
-                    .env_stack
-                    .iter()
-                    .filter(|entry| entry.is_finally_env());
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(next_finally) = finally_entries.rev().next() {
-                    <span class="kw">if </span>context.vm.frame().pc &lt; next_finally.start_address() {
-                        context.vm.frame_mut().pc = next_finally.start_address();
-                        <span class="kw">let </span>return_record = AbruptCompletionRecord::new_return();
-                        context.vm.frame_mut().abrupt_completion = <span class="prelude-val">Some</span>(return_record);
-                        <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
-                    }
-                }
+                <span class="macro">assert!</span>(context.vm.pending_exception.is_none());
 
-                <span class="kw">let </span>return_record = AbruptCompletionRecord::new_return();
-                context.vm.frame_mut().abrupt_completion = <span class="prelude-val">Some</span>(return_record);
-                <span class="prelude-val">Ok</span>(CompletionType::Return)
+                SetReturnValue::execute(context)<span class="question-mark">?</span>;
+                ReThrow::execute(context)
             }
         }
     }
 }
 
-<span class="doccomment">/// `AsyncGeneratorNext` implements the Opcode Operation for `Opcode::AsyncGeneratorNext`
+<span class="doccomment">/// `JumpIfNotResumeKind` implements the Opcode Operation for `Opcode::JumpIfNotResumeKind`
 ///
 /// Operation:
-///  - Resumes the current generator function.
+///  - Jumps to the specified address if the resume kind is not equal.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>AsyncGeneratorNext;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>JumpIfNotResumeKind;
 
-<span class="kw">impl </span>Operation <span class="kw">for </span>AsyncGeneratorNext {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;AsyncGeneratorNext&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - AsyncGeneratorNext&quot;</span>;
+<span class="kw">impl </span>Operation <span class="kw">for </span>JumpIfNotResumeKind {
+    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;JumpIfNotResumeKind&quot;</span>;
+    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - JumpIfNotResumeKind&quot;</span>;
 
     <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">let </span>skip_yield = context.vm.read::&lt;u32&gt;();
-        <span class="kw">let </span>skip_yield_await = context.vm.read::&lt;u32&gt;();
+        <span class="kw">let </span>exit = context.vm.read::&lt;u32&gt;();
+        <span class="kw">let </span>resume_kind = context.vm.read::&lt;u8&gt;();
 
-        <span class="kw">if </span>context.vm.frame().generator_resume_kind == GeneratorResumeKind::Throw {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(JsError::from_opaque(context.vm.pop()));
+        <span class="kw">let </span>generator_resume_kind = context.vm.pop().to_generator_resume_kind();
+        context.vm.push(generator_resume_kind);
+
+        <span class="kw">if </span>generator_resume_kind <span class="kw">as </span>u8 != resume_kind {
+            context.vm.frame_mut().pc = exit;
         }
 
-        <span class="kw">let </span>value = context.vm.pop();
-
-        <span class="kw">let </span>completion = <span class="prelude-val">Ok</span>(value);
-        <span class="kw">let </span>generator_object = context
-            .vm
-            .frame()
-            .async_generator
-            .as_ref()
-            .expect(<span class="string">&quot;must be in generator context here&quot;</span>)
-            .clone();
-        <span class="kw">let </span>next = generator_object
-            .borrow_mut()
-            .as_async_generator_mut()
-            .expect(<span class="string">&quot;must be async generator object&quot;</span>)
-            .queue
-            .pop_front()
-            .expect(<span class="string">&quot;must have item in queue&quot;</span>);
-        AsyncGenerator::complete_step(<span class="kw-2">&amp;</span>next, completion, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, context);
-
-        <span class="kw">let </span><span class="kw-2">mut </span>generator_object_mut = generator_object.borrow_mut();
-        <span class="kw">let </span>gen = generator_object_mut
-            .as_async_generator_mut()
-            .expect(<span class="string">&quot;must be async generator object&quot;</span>);
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(next) = gen.queue.front() {
-            <span class="kw">let </span>(completion, r#return) = <span class="kw-2">&amp;</span>next.completion;
-            <span class="kw">if </span><span class="kw-2">*</span>r#return {
-                <span class="kw">let </span>value = <span class="kw">match </span>completion {
-                    <span class="prelude-val">Ok</span>(value) =&gt; value.clone(),
-                    <span class="prelude-val">Err</span>(e) =&gt; e.clone().to_opaque(context),
-                };
-                context.vm.push(value);
-                context.vm.frame_mut().pc = skip_yield;
-            } <span class="kw">else </span>{
-                context.vm.push(completion.clone()<span class="question-mark">?</span>);
-                context.vm.frame_mut().pc = skip_yield_await;
-            }
-        } <span class="kw">else </span>{
-            gen.state = AsyncGeneratorState::SuspendedYield;
-        }
         <span class="prelude-val">Ok</span>(CompletionType::Normal)
     }
 }
 
-<span class="doccomment">/// `GeneratorAsyncResumeYield` implements the Opcode Operation for `Opcode::GeneratorAsyncResumeYield`
+<span class="doccomment">/// `GeneratorDelegateNext` implements the Opcode Operation for `Opcode::GeneratorDelegateNext`
 ///
 /// Operation:
-///  - Resumes the current async generator function after a yield.
+///  - Delegates the current generator function to another iterator.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorAsyncResumeYield;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorDelegateNext;
 
-<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorAsyncResumeYield {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorAsyncResumeYield&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorAsyncResumeYield&quot;</span>;
-
-    <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">let </span>normal_completion = context.vm.read::&lt;u32&gt;();
-
-        <span class="kw">match </span>context.vm.frame().generator_resume_kind {
-            GeneratorResumeKind::Normal =&gt; {
-                context.vm.frame_mut().pc = normal_completion;
-                <span class="prelude-val">Ok</span>(CompletionType::Normal)
-            }
-            GeneratorResumeKind::Throw =&gt; <span class="prelude-val">Err</span>(JsError::from_opaque(context.vm.pop())),
-            GeneratorResumeKind::Return =&gt; <span class="prelude-val">Ok</span>(CompletionType::Normal),
-        }
-    }
-}
-
-<span class="doccomment">/// `GeneratorResumeReturn` implements the Opcode Operation for `Opcode::GeneratorResumeReturn`
-///
-/// Operation:
-///  - Resumes a generator with a return completion.
-</span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorResumeReturn;
-
-<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorResumeReturn {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorResumeReturn&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorResumeReturn&quot;</span>;
-
-    <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">if </span>context.vm.frame().generator_resume_kind == GeneratorResumeKind::Throw {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(JsError::from_opaque(context.vm.pop()));
-        }
-        Return::execute(context)
-    }
-}
-
-<span class="doccomment">/// `GeneratorNextDelegate` implements the Opcode Operation for `Opcode::GeneratorNextDelegate`
-///
-/// Operation:
-///  - Delegates the current generator function another generator.
-</span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorNextDelegate;
-
-<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorNextDelegate {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorNextDelegate&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorNextDelegate&quot;</span>;
-
-    <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">let </span>done_address = context.vm.read::&lt;u32&gt;();
-        <span class="kw">let </span>received = context.vm.pop();
-        <span class="kw">let </span>next_method = context.vm.pop();
-        <span class="kw">let </span>iterator = context.vm.pop();
-        <span class="kw">let </span>iterator = iterator.as_object().expect(<span class="string">&quot;iterator was not an object&quot;</span>);
-
-        <span class="kw">match </span>context.vm.frame().generator_resume_kind {
-            GeneratorResumeKind::Normal =&gt; {
-                <span class="kw">let </span>result_value =
-                    next_method.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                <span class="kw">let </span>result = result_value.as_object().ok_or_else(|| {
-                    JsNativeError::typ().with_message(<span class="string">&quot;generator next method returned non-object&quot;</span>)
-                })<span class="question-mark">?</span>;
-                <span class="kw">let </span>done = result.get(<span class="macro">utf16!</span>(<span class="string">&quot;done&quot;</span>), context)<span class="question-mark">?</span>.to_boolean();
-                <span class="kw">if </span>done {
-                    context.vm.frame_mut().pc = done_address;
-                    <span class="kw">let </span>value = result.get(<span class="macro">utf16!</span>(<span class="string">&quot;value&quot;</span>), context)<span class="question-mark">?</span>;
-                    context.vm.push(value);
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
-                }
-                context.vm.push(iterator.clone());
-                context.vm.push(next_method.clone());
-                context.vm.push(result_value);
-                context.vm.frame_mut().r#yield = <span class="bool-val">true</span>;
-                <span class="prelude-val">Ok</span>(CompletionType::Return)
-            }
-            GeneratorResumeKind::Throw =&gt; {
-                <span class="kw">let </span>throw = iterator.get_method(<span class="macro">utf16!</span>(<span class="string">&quot;throw&quot;</span>), context)<span class="question-mark">?</span>;
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(throw) = throw {
-                    <span class="kw">let </span>result = throw.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                    <span class="kw">let </span>result_object = result.as_object().ok_or_else(|| {
-                        JsNativeError::typ()
-                            .with_message(<span class="string">&quot;generator throw method returned non-object&quot;</span>)
-                    })<span class="question-mark">?</span>;
-                    <span class="kw">let </span>done = result_object.get(<span class="macro">utf16!</span>(<span class="string">&quot;done&quot;</span>), context)<span class="question-mark">?</span>.to_boolean();
-                    <span class="kw">if </span>done {
-                        context.vm.frame_mut().pc = done_address;
-                        <span class="kw">let </span>value = result_object.get(<span class="macro">utf16!</span>(<span class="string">&quot;value&quot;</span>), context)<span class="question-mark">?</span>;
-                        context.vm.push(value);
-                        <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
-                    }
-                    context.vm.push(iterator.clone());
-                    context.vm.push(next_method.clone());
-                    context.vm.push(result);
-                    context.vm.frame_mut().r#yield = <span class="bool-val">true</span>;
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Return);
-                }
-                context.vm.frame_mut().pc = done_address;
-                <span class="kw">let </span>iterator_record = IteratorRecord::new(iterator.clone(), next_method, <span class="bool-val">false</span>);
-                iterator_record.close(<span class="prelude-val">Ok</span>(JsValue::Undefined), context)<span class="question-mark">?</span>;
-
-                <span class="prelude-val">Err</span>(JsNativeError::typ()
-                    .with_message(<span class="string">&quot;iterator does not have a throw method&quot;</span>)
-                    .into())
-            }
-            GeneratorResumeKind::Return =&gt; {
-                <span class="kw">let </span>r#return = iterator.get_method(<span class="macro">utf16!</span>(<span class="string">&quot;return&quot;</span>), context)<span class="question-mark">?</span>;
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(r#return) = r#return {
-                    <span class="kw">let </span>result = r#return.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                    <span class="kw">let </span>result_object = result.as_object().ok_or_else(|| {
-                        JsNativeError::typ()
-                            .with_message(<span class="string">&quot;generator return method returned non-object&quot;</span>)
-                    })<span class="question-mark">?</span>;
-                    <span class="kw">let </span>done = result_object.get(<span class="macro">utf16!</span>(<span class="string">&quot;done&quot;</span>), context)<span class="question-mark">?</span>.to_boolean();
-                    <span class="kw">if </span>done {
-                        <span class="kw">let </span>value = result_object.get(<span class="macro">utf16!</span>(<span class="string">&quot;value&quot;</span>), context)<span class="question-mark">?</span>;
-                        context.vm.push(value);
-                        <span class="kw">return </span>Return::execute(context);
-                    }
-                    context.vm.push(iterator.clone());
-                    context.vm.push(next_method.clone());
-                    context.vm.push(result);
-                    context.vm.frame_mut().r#yield = <span class="bool-val">true</span>;
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Return);
-                }
-                context.vm.push(received);
-                Return::execute(context)
-            }
-        }
-    }
-}
-
-<span class="doccomment">/// `GeneratorAsyncDelegateNext` implements the Opcode Operation for `Opcode::GeneratorAsyncDelegateNext`
-///
-/// Operation:
-///  - Delegates the current async generator function to another iterator.
-</span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorAsyncDelegateNext;
-
-<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorAsyncDelegateNext {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorAsyncDelegateNext&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorAsyncDelegateNext&quot;</span>;
+<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorDelegateNext {
+    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorDelegateNext&quot;</span>;
+    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorDelegateNext&quot;</span>;
 
     <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
         <span class="kw">let </span>throw_method_undefined = context.vm.read::&lt;u32&gt;();
         <span class="kw">let </span>return_method_undefined = context.vm.read::&lt;u32&gt;();
-        <span class="kw">let </span>received = context.vm.pop();
-        <span class="kw">let </span>next_method = context.vm.pop();
-        <span class="kw">let </span>iterator = context.vm.pop();
-        <span class="kw">let </span>iterator = iterator.as_object().expect(<span class="string">&quot;iterator was not an object&quot;</span>);
 
-        <span class="kw">match </span>context.vm.frame().generator_resume_kind {
+        <span class="kw">let </span>generator_resume_kind = context.vm.pop().to_generator_resume_kind();
+        <span class="kw">let </span>received = context.vm.pop();
+
+        <span class="comment">// Preemptively popping removes the iterator from the iterator stack if any operation
+        // throws, which avoids calling cleanup operations on the poisoned iterator.
+        </span><span class="kw">let </span>iterator_record = context
+            .vm
+            .frame_mut()
+            .iterators
+            .pop()
+            .expect(<span class="string">&quot;iterator stack should have at least an iterator&quot;</span>);
+
+        <span class="kw">match </span>generator_resume_kind {
             GeneratorResumeKind::Normal =&gt; {
-                <span class="kw">let </span>result_value =
-                    next_method.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                context.vm.push(iterator.clone());
-                context.vm.push(next_method.clone());
+                <span class="kw">let </span>result = iterator_record.next_method().call(
+                    <span class="kw-2">&amp;</span>iterator_record.iterator().clone().into(),
+                    <span class="kw-2">&amp;</span>[received],
+                    context,
+                )<span class="question-mark">?</span>;
                 context.vm.push(<span class="bool-val">false</span>);
-                context.vm.push(result_value);
-                <span class="prelude-val">Ok</span>(CompletionType::Normal)
+                context.vm.push(result);
+                context.vm.push(GeneratorResumeKind::Normal);
             }
             GeneratorResumeKind::Throw =&gt; {
-                <span class="kw">let </span>throw = iterator.get_method(<span class="macro">utf16!</span>(<span class="string">&quot;throw&quot;</span>), context)<span class="question-mark">?</span>;
+                <span class="kw">let </span>throw = iterator_record
+                    .iterator()
+                    .get_method(<span class="macro">utf16!</span>(<span class="string">&quot;throw&quot;</span>), context)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(throw) = throw {
-                    <span class="kw">let </span>result = throw.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                    context.vm.push(iterator.clone());
-                    context.vm.push(next_method.clone());
+                    <span class="kw">let </span>result = throw.call(
+                        <span class="kw-2">&amp;</span>iterator_record.iterator().clone().into(),
+                        <span class="kw-2">&amp;</span>[received],
+                        context,
+                    )<span class="question-mark">?</span>;
                     context.vm.push(<span class="bool-val">false</span>);
                     context.vm.push(result);
+                    context.vm.push(GeneratorResumeKind::Normal);
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>error = JsNativeError::typ()
                         .with_message(<span class="string">&quot;iterator does not have a throw method&quot;</span>)
                         .to_opaque(context);
                     context.vm.push(error);
-                    context.vm.push(iterator.clone());
-                    context.vm.push(next_method.clone());
-                    context.vm.push(<span class="bool-val">false</span>);
                     context.vm.frame_mut().pc = throw_method_undefined;
                 }
-
-                <span class="prelude-val">Ok</span>(CompletionType::Normal)
             }
             GeneratorResumeKind::Return =&gt; {
-                <span class="kw">let </span>r#return = iterator.get_method(<span class="macro">utf16!</span>(<span class="string">&quot;return&quot;</span>), context)<span class="question-mark">?</span>;
+                <span class="kw">let </span>r#return = iterator_record
+                    .iterator()
+                    .get_method(<span class="macro">utf16!</span>(<span class="string">&quot;return&quot;</span>), context)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(r#return) = r#return {
-                    <span class="kw">let </span>result = r#return.call(<span class="kw-2">&amp;</span>iterator.clone().into(), <span class="kw-2">&amp;</span>[received], context)<span class="question-mark">?</span>;
-                    context.vm.push(iterator.clone());
-                    context.vm.push(next_method.clone());
+                    <span class="kw">let </span>result = r#return.call(
+                        <span class="kw-2">&amp;</span>iterator_record.iterator().clone().into(),
+                        <span class="kw-2">&amp;</span>[received],
+                        context,
+                    )<span class="question-mark">?</span>;
                     context.vm.push(<span class="bool-val">true</span>);
                     context.vm.push(result);
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
+                    context.vm.push(GeneratorResumeKind::Normal);
+                } <span class="kw">else </span>{
+                    context.vm.push(received);
+                    context.vm.frame_mut().pc = return_method_undefined;
+
+                    <span class="comment">// The current iterator didn&#39;t have a cleanup `return` method, so we can
+                    // skip pushing it to the iterator stack for cleanup.
+                    </span><span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
                 }
-                context.vm.push(iterator.clone());
-                context.vm.push(next_method.clone());
-                context.vm.push(received);
-                context.vm.frame_mut().pc = return_method_undefined;
-                <span class="prelude-val">Ok</span>(CompletionType::Normal)
             }
         }
+
+        context.vm.frame_mut().iterators.push(iterator_record);
+
+        <span class="prelude-val">Ok</span>(CompletionType::Normal)
     }
 }
 
-<span class="doccomment">/// `GeneratorAsyncDelegateResume` implements the Opcode Operation for `Opcode::GeneratorAsyncDelegateResume`
+<span class="doccomment">/// `GeneratorDelegateResume` implements the Opcode Operation for `Opcode::GeneratorDelegateResume`
 ///
 /// Operation:
-///  - Resume the async generator with yield delegate logic after it awaits a value.
+///  - Resume the generator with yield delegate logic after it awaits a value.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorAsyncDelegateResume;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GeneratorDelegateResume;
 
-<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorAsyncDelegateResume {
-    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorAsyncDelegateResume&quot;</span>;
-    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorAsyncDelegateResume&quot;</span>;
+<span class="kw">impl </span>Operation <span class="kw">for </span>GeneratorDelegateResume {
+    <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;GeneratorDelegateResume&quot;</span>;
+    <span class="kw">const </span>INSTRUCTION: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;INST - GeneratorDelegateResume&quot;</span>;
 
     <span class="kw">fn </span>execute(context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; JsResult&lt;CompletionType&gt; {
-        <span class="kw">let </span>skip_yield = context.vm.read::&lt;u32&gt;();
-        <span class="kw">let </span>normal_completion = context.vm.read::&lt;u32&gt;();
+        <span class="kw">let </span>return_gen = context.vm.read::&lt;u32&gt;();
         <span class="kw">let </span>exit = context.vm.read::&lt;u32&gt;();
 
-        <span class="kw">if </span>context.vm.frame().generator_resume_kind == GeneratorResumeKind::Throw {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(JsError::from_opaque(context.vm.pop()));
-        }
+        <span class="kw">let </span><span class="kw-2">mut </span>iterator = context
+            .vm
+            .frame_mut()
+            .iterators
+            .pop()
+            .expect(<span class="string">&quot;iterator stack should have at least an iterator&quot;</span>);
 
-        <span class="kw">let </span>received = context.vm.pop();
+        <span class="kw">let </span>generator_resume_kind = context.vm.pop().to_generator_resume_kind();
+
+        <span class="kw">let </span>result = context.vm.pop();
         <span class="kw">let </span>is_return = context.vm.pop().to_boolean();
 
-        <span class="kw">let </span>result = received.as_object().ok_or_else(|| {
-            JsNativeError::typ().with_message(<span class="string">&quot;generator next method returned non-object&quot;</span>)
-        })<span class="question-mark">?</span>;
-        <span class="kw">let </span>done = result.get(<span class="macro">utf16!</span>(<span class="string">&quot;done&quot;</span>), context)<span class="question-mark">?</span>.to_boolean();
-        <span class="kw">let </span>value = result.get(<span class="macro">utf16!</span>(<span class="string">&quot;value&quot;</span>), context)<span class="question-mark">?</span>;
-        <span class="kw">if </span>done {
+        <span class="kw">if </span>generator_resume_kind == GeneratorResumeKind::Throw {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(JsError::from_opaque(result));
+        }
+
+        iterator.update_result(result, context)<span class="question-mark">?</span>;
+
+        <span class="kw">if </span>iterator.done() {
+            <span class="kw">let </span>value = iterator.value(context)<span class="question-mark">?</span>;
             context.vm.push(value);
 
-            <span class="kw">if </span>is_return {
-                <span class="kw">return </span>Return::execute(context);
-            }
+            context.vm.frame_mut().pc = <span class="kw">if </span>is_return { return_gen } <span class="kw">else </span>{ exit };
 
-            context.vm.frame_mut().pc = exit;
             <span class="kw">return </span><span class="prelude-val">Ok</span>(CompletionType::Normal);
         }
 
-        <span class="kw">let </span>completion = <span class="prelude-val">Ok</span>(value);
-        <span class="kw">let </span>generator_object = context
-            .vm
-            .frame()
-            .async_generator
-            .as_ref()
-            .expect(<span class="string">&quot;must be in generator context here&quot;</span>)
-            .clone();
-        <span class="kw">let </span>next = generator_object
-            .borrow_mut()
-            .as_async_generator_mut()
-            .expect(<span class="string">&quot;must be async generator object&quot;</span>)
-            .queue
-            .pop_front()
-            .expect(<span class="string">&quot;must have item in queue&quot;</span>);
-        AsyncGenerator::complete_step(<span class="kw-2">&amp;</span>next, completion, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, context);
+        context.vm.frame_mut().iterators.push(iterator);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>generator_object_mut = generator_object.borrow_mut();
-        <span class="kw">let </span>gen = generator_object_mut
-            .as_async_generator_mut()
-            .expect(<span class="string">&quot;must be async generator object&quot;</span>);
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(next) = gen.queue.front() {
-            <span class="kw">let </span>(completion, r#return) = <span class="kw-2">&amp;</span>next.completion;
-            <span class="kw">if </span><span class="kw-2">*</span>r#return {
-                <span class="kw">let </span>value = <span class="kw">match </span>completion {
-                    <span class="prelude-val">Ok</span>(value) =&gt; value.clone(),
-                    <span class="prelude-val">Err</span>(e) =&gt; e.clone().to_opaque(context),
-                };
-                context.vm.push(value);
-                context.vm.frame_mut().pc = skip_yield;
-            } <span class="kw">else </span>{
-                context.vm.push(completion.clone()<span class="question-mark">?</span>);
-                context.vm.frame_mut().pc = normal_completion;
-            }
-        } <span class="kw">else </span>{
-            gen.state = AsyncGeneratorState::SuspendedYield;
-        }
         <span class="prelude-val">Ok</span>(CompletionType::Normal)
     }
 }

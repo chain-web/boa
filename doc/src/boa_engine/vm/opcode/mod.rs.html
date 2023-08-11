@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/vm/opcode/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-ba5701c5741a7b69.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0 (90c541806 2023-05-31)" data-search-js="search-e077946657036a58.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-7bfb4c59cc6bc502.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-905937fbbdc8e9ea.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f61008743c98d196.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa_engine/src/vm/opcode/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="boa_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../boa_engine/index.html"><img src="https://raw.githubusercontent.com/boa-dev/boa/main/assets/logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1786,11 +1786,34 @@
 <a href="#1786" id="1786">1786</a>
 <a href="#1787" id="1787">1787</a>
 <a href="#1788" id="1788">1788</a>
+<a href="#1789" id="1789">1789</a>
+<a href="#1790" id="1790">1790</a>
+<a href="#1791" id="1791">1791</a>
+<a href="#1792" id="1792">1792</a>
+<a href="#1793" id="1793">1793</a>
+<a href="#1794" id="1794">1794</a>
+<a href="#1795" id="1795">1795</a>
+<a href="#1796" id="1796">1796</a>
+<a href="#1797" id="1797">1797</a>
+<a href="#1798" id="1798">1798</a>
+<a href="#1799" id="1799">1799</a>
+<a href="#1800" id="1800">1800</a>
+<a href="#1801" id="1801">1801</a>
+<a href="#1802" id="1802">1802</a>
+<a href="#1803" id="1803">1803</a>
+<a href="#1804" id="1804">1804</a>
+<a href="#1805" id="1805">1805</a>
+<a href="#1806" id="1806">1806</a>
+<a href="#1807" id="1807">1807</a>
+<a href="#1808" id="1808">1808</a>
+<a href="#1809" id="1809">1809</a>
+<a href="#1810" id="1810">1810</a>
+<a href="#1811" id="1811">1811</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The opcodes of the vm.
 </span><span class="kw">use crate</span>::{vm::CompletionType, Context, JsResult};
 
 <span class="comment">// Operation modules
-</span><span class="kw">mod </span>await_stm;
+</span><span class="kw">mod </span>r#await;
 <span class="kw">mod </span>binary_ops;
 <span class="kw">mod </span>call;
 <span class="kw">mod </span>concat;
@@ -1803,7 +1826,6 @@
 <span class="kw">mod </span>generator;
 <span class="kw">mod </span>get;
 <span class="kw">mod </span>iteration;
-<span class="kw">mod </span>jump;
 <span class="kw">mod </span>meta;
 <span class="kw">mod </span>new;
 <span class="kw">mod </span>nop;
@@ -1821,8 +1843,6 @@
 
 <span class="comment">// Operation structs
 </span><span class="attr">#[doc(inline)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>await_stm::<span class="kw-2">*</span>;
-<span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>binary_ops::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>call::<span class="kw-2">*</span>;
@@ -1847,8 +1867,6 @@
 <span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>iteration::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>jump::<span class="kw-2">*</span>;
-<span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>meta::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>new::<span class="kw-2">*</span>;
@@ -1858,6 +1876,8 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>pop::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>push::<span class="kw-2">*</span>;
+<span class="attr">#[doc(inline)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>r#await::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>require::<span class="kw-2">*</span>;
 <span class="attr">#[doc(inline)]
@@ -1971,13 +1991,6 @@
         /// Stack: value **=&gt;**
         </span>Pop = <span class="number">0</span>,
 
-        <span class="doccomment">/// Pop the top value from the stack if the last try block has thrown a value.
-        ///
-        /// Operands:
-        ///
-        /// Stack: value **=&gt;**
-        </span>PopIfThrown,
-
         <span class="doccomment">/// Push a copy of the top value on the stack.
         ///
         /// Operands:
@@ -2047,12 +2060,19 @@
         /// Stack: **=&gt;** value
         </span>PushInt32,
 
+        <span class="doccomment">/// Push `f32` value on the stack.
+        ///
+        /// Operands: value: `f32`
+        ///
+        /// Stack: **=&gt;** value
+        </span>PushFloat,
+
         <span class="doccomment">/// Push `f64` value on the stack.
         ///
         /// Operands: value: `f64`
         ///
         /// Stack: **=&gt;** value
-        </span>PushRational,
+        </span>PushDouble,
 
         <span class="doccomment">/// Push `NaN` integer on the stack.
         ///
@@ -2134,12 +2154,19 @@
         /// Stack: class, prototype **=&gt;** class.prototype
         </span>SetClassPrototype,
 
-        <span class="doccomment">/// Set home object internal slot of a function object.
+        <span class="doccomment">/// Set home object internal slot of an object literal method.
         ///
         /// Operands:
         ///
         /// Stack: home, function **=&gt;** home, function
         </span>SetHomeObject,
+
+        <span class="doccomment">/// Set home object internal slot of a class method.
+        ///
+        /// Operands:
+        ///
+        /// Stack: home, function **=&gt;** home, function
+        </span>SetHomeObjectClass,
 
         <span class="doccomment">/// Set the prototype of an object if the value is an object or null.
         ///
@@ -2456,6 +2483,13 @@
         /// Stack: value **=&gt;**
         </span>PutLexicalValue,
 
+        <span class="doccomment">/// Throws an error because the binding access is illegal.
+        ///
+        /// Operands: binding_index: `u32`
+        ///
+        /// Stack: **=&gt;**
+        </span>ThrowMutateImmutable,
+
         <span class="doccomment">/// Find a binding on the environment chain and push its value.
         ///
         /// Operands: name_index: `u32`
@@ -2510,7 +2544,7 @@
         ///
         /// Operands: name_index: `u32`
         ///
-        /// Stack: object **=&gt;** value
+        /// Stack: object, receiver **=&gt;** value
         </span>GetPropertyByName,
 
         <span class="doccomment">/// Get a property method or undefined if the property is null or undefined.
@@ -2527,7 +2561,7 @@
         ///
         /// Operands:
         ///
-        /// Stack: object, key **=&gt;** value
+        /// Stack: object, receiver, key **=&gt;** value
         </span>GetPropertyByValue,
 
         <span class="doccomment">/// Get a property by value from an object an push the key and value on the stack.
@@ -2536,7 +2570,7 @@
         ///
         /// Operands:
         ///
-        /// Stack: object, key **=&gt;** key, value
+        /// Stack: object, receiver, key **=&gt;** key, value
         </span>GetPropertyByValuePush,
 
         <span class="doccomment">/// Sets a property by name of an object.
@@ -2591,7 +2625,7 @@
         ///
         /// Operands:
         ///
-        /// Stack: object, key, value **=&gt;** value
+        /// Stack: object, receiver, key, value **=&gt;** value
         </span>SetPropertyByValue,
 
         <span class="doccomment">/// Defines a own property of an object by value.
@@ -2898,12 +2932,52 @@
         /// Stack: value **=&gt;** value
         </span>JumpIfNullOrUndefined,
 
-        <span class="doccomment">/// Throw exception
+        <span class="doccomment">/// Jump table that jumps depending on top value of the stack.
+        ///
+        /// This is used to handle special cases when we call `continue`, `break` or `return` in a try block,
+        /// that has finally block.
+        ///
+        /// Operands: count: `u32`, default: `u32`, address: `u32` * count
+        ///
+        /// Stack: value: [`i32`] **=&gt;**
+        </span>JumpTable,
+
+        <span class="doccomment">/// Throw exception.
+        ///
+        /// This sets pending exception and searches for an exception handler.
         ///
         /// Operands:
         ///
         /// Stack: value **=&gt;**
         </span>Throw,
+
+        <span class="doccomment">/// Rethrow thrown exception.
+        ///
+        /// This is also used to handle generator `return()` call, we throw an empty exception, by setting pending exception to [`None`],
+        /// propagating it and calling finally code until there is no exception handler left, in that case we consume the empty exception and return
+        /// from the generator.
+        ///
+        /// Operands:
+        ///
+        /// Stack: **=&gt;**
+        </span>ReThrow,
+
+        <span class="doccomment">/// Get the thrown pending exception (if it&#39;s set) and push on the stack.
+        ///
+        /// If there is no pending exception, which can happend if we are handling `return()` call on generator,
+        /// then we rethrow the empty exception. See [`Opcode::ReThrow`].
+        ///
+        /// Operands:
+        ///
+        /// Stack: **=&gt;** exception
+        </span>Exception,
+
+        <span class="doccomment">/// Get the thrown pending exception if it&#39;s set and push `true`, otherwise push only `false`.
+        ///
+        /// Operands:
+        ///
+        /// Stack: **=&gt;** (`true`, exception) or `false`
+        </span>MaybeException,
 
         <span class="doccomment">/// Throw a new `TypeError` exception
         ///
@@ -2911,69 +2985,6 @@
         ///
         /// Stack: **=&gt;**
         </span>ThrowNewTypeError,
-
-        <span class="doccomment">/// Start of a try block.
-        ///
-        /// Operands: next_address: `u32`, finally_address: `u32`
-        ///
-        /// Stack: **=&gt;**
-        </span>TryStart,
-
-        <span class="doccomment">/// End of a try block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>TryEnd,
-
-        <span class="doccomment">/// Start of a catch block.
-        ///
-        /// Operands: finally_address: `u32`
-        ///
-        /// Stack: **=&gt;**
-        </span>CatchStart,
-
-        <span class="doccomment">/// End of a catch block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>CatchEnd,
-
-        <span class="doccomment">/// End of a catch block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>CatchEnd2,
-
-        <span class="doccomment">/// Start of a finally block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>FinallyStart,
-
-        <span class="doccomment">/// End of a finally block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>FinallyEnd,
-
-        <span class="doccomment">/// Jumps to a target location and pops the environments involved.
-        ///
-        /// Operands: Jump Address: u32, Target address: u32
-        ///
-        /// Stack: loop_return_value **=&gt;**
-        </span>Break,
-
-        <span class="doccomment">/// Sets the `AbruptCompletionRecord` for a delayed continue
-        ///
-        /// Operands: Jump Address: u32, Target address: u32,
-        ///
-        /// Stack: loop_return_value **=&gt;**
-        </span>Continue,
 
         <span class="doccomment">/// Pops value converts it to boolean and pushes it back.
         ///
@@ -3021,7 +3032,7 @@
         ///
         /// Operands:
         ///
-        /// Stack: argument_1, ... argument_n **=&gt;**
+        /// Stack: argument_n, ... argument_1 **=&gt;**
         </span>SuperCallDerived,
 
         <span class="doccomment">/// Dynamically import a module.
@@ -3062,7 +3073,7 @@
 
         <span class="doccomment">/// Get function from the pre-compiled inner functions.
         ///
-        /// Operands: address: `u32`, method: `u8`
+        /// Operands: address: `u32`, is_method: `u8`
         ///
         /// Stack: **=&gt;** func
         </span>GetFunction,
@@ -3137,6 +3148,34 @@
         /// Stack: **=&gt;**
         </span>Return,
 
+        <span class="doccomment">/// Close an async generator function.
+        ///
+        /// Operands:
+        ///
+        /// Stack: **=&gt;**
+        </span>AsyncGeneratorClose,
+
+        <span class="doccomment">/// Creates the generator object and yields.
+        ///
+        /// Operands: async: `u8`
+        ///
+        /// Stack: **=&gt;** resume_kind
+        </span>Generator,
+
+        <span class="doccomment">/// Get return value of a function.
+        ///
+        /// Operands:
+        ///
+        /// Stack: **=&gt;** value
+        </span>GetReturnValue,
+
+        <span class="doccomment">/// Set return value of a function.
+        ///
+        /// Operands:
+        ///
+        /// Stack: value **=&gt;**
+        </span>SetReturnValue,
+
         <span class="doccomment">/// Push a declarative environment.
         ///
         /// Operands: compile_environments_index: `u32`
@@ -3165,126 +3204,138 @@
         /// Stack: **=&gt;**
         </span>PopEnvironment,
 
-        <span class="doccomment">/// Push loop start marker.
+        <span class="doccomment">/// Increment loop itearation count.
         ///
-        /// Operands: Exit Address: `u32`
-        ///
-        /// Stack: **=&gt;**
-        </span>LoopStart,
-
-        <span class="doccomment">/// Clean up environments when a loop continues.
+        /// Used for limiting the loop iteration.
         ///
         /// Operands:
         ///
         /// Stack: **=&gt;**
-        </span>LoopContinue,
-
-        <span class="doccomment">/// Clean up environments at the end of a loop and return it&#39;s value.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;** value
-        </span>LoopEnd,
-
-        <span class="doccomment">/// Update the return value of a loop.
-        ///
-        /// Operands:
-        ///
-        /// Stack: loop_return_value **=&gt;**
-        </span>LoopUpdateReturnValue,
-
-        <span class="doccomment">/// Push labelled start marker.
-        ///
-        /// Operands: Exit Address: u32,
-        ///
-        /// Stack: **=&gt;**
-        </span>LabelledStart,
-
-        <span class="doccomment">/// Clean up environments at the end of a labelled block.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>LabelledEnd,
+        </span>IncrementLoopIteration,
 
         <span class="doccomment">/// Creates the ForInIterator of an object.
         ///
-        /// Stack: object **=&gt;** iterator, next_method
+        /// Stack: object **=&gt;**
+        ///
+        /// Iterator Stack: `iterator`
         </span>CreateForInIterator,
 
         <span class="doccomment">/// Gets the iterator of an object.
         ///
         /// Operands:
         ///
-        /// Stack: object **=&gt;** iterator, next_method
+        /// Stack: object **=&gt;**
+        ///
+        /// Iterator Stack: `iterator`
         </span>GetIterator,
 
         <span class="doccomment">/// Gets the async iterator of an object.
         ///
         /// Operands:
         ///
-        /// Stack: object **=&gt;** iterator, next_method
+        /// Stack: object **=&gt;**
+        ///
+        /// Iterator Stack: `iterator`
         </span>GetAsyncIterator,
 
-        <span class="doccomment">/// Calls the `next` method of `iterator` and puts its return value on the stack.
+        <span class="doccomment">/// Calls the `next` method of `iterator`, updating its record with the next value.
         ///
         /// Operands:
         ///
-        /// Stack: iterator, next_method **=&gt;** iterator, next_method, next_value
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
         </span>IteratorNext,
 
-        <span class="doccomment">/// Calls the `next` method of `iterator`, puts its return value on the stack
-        /// and sets the `[[Done]]` value of the iterator on the call frame.
+        <span class="doccomment">/// Calls the `next` method of `iterator`, updating its record with the next value.
         ///
         /// Operands:
         ///
-        /// Stack: iterator, next_method **=&gt;** iterator, next_method, next_value
-        </span>IteratorNextSetDone,
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
+        </span>IteratorNextWithoutPop,
 
-        <span class="doccomment">/// Gets the `value` and `done` properties of an iterator result.
+        <span class="doccomment">/// Returns `true` if the current iterator is done, or `false` otherwise
         ///
-        /// Stack: next_result **=&gt;** done, next_value
-        </span>IteratorUnwrapNext,
+        /// Stack: **=&gt;** done
+        ///
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
+        </span>IteratorDone,
 
-        <span class="doccomment">/// Gets the `value` property of an iterator result.
+        <span class="doccomment">/// Finishes the call to `Opcode::IteratorNext` within a `for await` loop by setting the current
+        /// result of the current iterator.
         ///
-        /// Stack: next_result **=&gt;** next_value
-        </span>IteratorUnwrapValue,
+        /// Operands:
+        ///
+        /// Stack: `next_result`, `resume_kind` **=&gt;** `resume_kind`
+        ///
+        /// Iterator Stack: iterator **=&gt;** iterator
+        </span>IteratorFinishAsyncNext,
 
-        <span class="doccomment">/// Gets the `value` and `done` properties of an iterator result, or jump to `address` if
-        /// `done` is true.
+        <span class="doccomment">/// Gets the `value` property of the current iterator record.
         ///
-        /// Operands: address: `u32`
+        /// Stack: **=&gt;** `value`
         ///
-        /// Stack: next_result **=&gt;** done, next_value ( if done != true  )
-        </span>IteratorUnwrapNextOrJump,
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
+        </span>IteratorValue,
+
+        <span class="doccomment">/// Gets the `value` property of the current iterator record.
+        ///
+        /// Stack: **=&gt;** `value`
+        ///
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
+        </span>IteratorValueWithoutPop,
+
+        <span class="doccomment">/// Gets the last iteration result of the current iterator record.
+        ///
+        /// Stack: **=&gt;** `result`
+        ///
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
+        </span>IteratorResult,
 
         <span class="doccomment">/// Consume the iterator and construct and array with all the values.
         ///
         /// Operands:
         ///
-        /// Stack: iterator, next_method **=&gt;** iterator, next_method, array
+        /// Stack: **=&gt;** array
+        ///
+        /// Iterator Stack: `iterator` **=&gt;** `iterator`
         </span>IteratorToArray,
-
-        <span class="doccomment">/// Push an iterator to the call frame close iterator stack.
-        ///
-        /// Operands:
-        ///
-        /// Stack: iterator, next_method =&gt; iterator, next_method
-        </span>IteratorClosePush,
 
         <span class="doccomment">/// Pop an iterator from the call frame close iterator stack.
         ///
-        /// Operands:
+        /// Iterator Stack:
+        /// - `iterator` **=&gt;**
+        </span>IteratorPop,
+
+        <span class="doccomment">/// Pushes `true` to the stack if the iterator stack is empty.
         ///
         /// Stack:
-        </span>IteratorClosePop,
+        /// - **=&gt;** `is_empty`
+        ///
+        /// Iterator Stack:
+        /// - **=&gt;**
+        </span>IteratorStackEmpty,
+
+        <span class="doccomment">/// Creates a new iterator result object.
+        ///
+        /// Operands:
+        /// - done: bool (codified as u8 with `0` -&gt; `false` and `!0` -&gt; `true`)
+        ///
+        /// Stack:
+        /// - value **=&gt;**
+        ///
+        </span>CreateIteratorResult,
+
+        <span class="doccomment">/// Calls `return` on the current iterator and returns the result.
+        ///
+        /// Stack: **=&gt;** return_val (if return is a method), is_return_method
+        ///
+        /// Iterator Stack: `iterator` **=&gt;**
+        </span>IteratorReturn,
 
         <span class="doccomment">/// Concat multiple stack objects into a string.
         ///
         /// Operands: value_count: `u32`
         ///
-        /// Stack: value_1,...value_n **=&gt;** string
+        /// Stack: `value_1`,...`value_n` **=&gt;** `string`
         </span>ConcatToString,
 
         <span class="doccomment">/// Call RequireObjectCoercible on the stack value.
@@ -3315,81 +3366,72 @@
         /// Stack: `argument_1` .. `argument_n` **=&gt;**
         </span>RestParameterPop,
 
-        <span class="doccomment">/// Add one to the pop on return count.
+        <span class="doccomment">/// Yields from the current generator execution.
         ///
         /// Operands:
         ///
-        /// Stack: **=&gt;**
-        </span>PopOnReturnAdd,
-
-        <span class="doccomment">/// Subtract one from the pop on return count.
-        ///
-        /// Operands:
-        ///
-        /// Stack: **=&gt;**
-        </span>PopOnReturnSub,
-
-        <span class="doccomment">/// Yield from the current execution.
-        ///
-        /// Operands:
-        ///
-        /// Stack: value **=&gt;**
-        </span>Yield,
+        /// Stack: **=&gt;** resume_kind, received
+        </span>GeneratorYield,
 
         <span class="doccomment">/// Resumes the current generator function.
         ///
+        /// If the `resume_kind` is `Throw`, then the value is poped and thrown, otherwise if `Return`
+        /// we pop the value, set it as the return value and throw and empty exception. See [`Opcode::ReThrow`].
+        ///
         /// Operands:
         ///
-        /// Stack: received **=&gt;**
+        /// Stack: `resume_kind`, value **=&gt;** value
         </span>GeneratorNext,
 
-        <span class="doccomment">/// Resumes a generator with a return completion.
+        <span class="doccomment">/// Yields from the current async generator execution.
+        ///
+        /// Operands:
+        ///
+        /// Stack: value **=&gt;** received
+        </span>AsyncGeneratorYield,
+
+        <span class="doccomment">/// Create a promise capacity for an async function, if not already set.
         ///
         /// Operands:
         ///
         /// Stack: **=&gt;**
-        </span>GeneratorResumeReturn,
+        </span>CreatePromiseCapability,
 
-        <span class="doccomment">/// Resumes the current generator function.
+        <span class="doccomment">/// Resolves or rejects the promise capability of an async function.
         ///
-        /// Operands: skip_yield: u32, skip_yield_await: u32
+        /// If the pending exception is set, reject and rethrow the exception, otherwise resolve.
         ///
-        /// Stack: received **=&gt;** `Option&lt;value&gt;`
-        </span>AsyncGeneratorNext,
-
-        <span class="doccomment">/// Resumes the current async generator function after a yield.
-        ///
-        /// Operands: normal_completion: u32
+        /// Operands:
         ///
         /// Stack: **=&gt;**
-        </span>GeneratorAsyncResumeYield,
+        </span>CompletePromiseCapability,
 
-        <span class="doccomment">/// Delegates the current generator function to another iterator.
+        <span class="doccomment">/// Jumps to the specified address if the resume kind is not equal.
         ///
-        /// Operands: done_address: `u32`
+        /// Operands: `exit`: `u32`, `resume_kind`: `u8`.
         ///
-        /// Stack: iterator, next_method, received **=&gt;** iterator, next_method
-        </span>GeneratorNextDelegate,
+        /// Stack: `resume_kind` **=&gt;** `resume_kind`
+        </span>JumpIfNotResumeKind,
 
         <span class="doccomment">/// Delegates the current async generator function to another iterator.
         ///
         /// Operands: throw_method_undefined: `u32`, return_method_undefined: `u32`
         ///
-        /// Stack: iterator, next_method, received **=&gt;** iterator, next_method, is_return, result
-        </span>GeneratorAsyncDelegateNext,
+        /// Stack: received **=&gt;** result
+        </span>GeneratorDelegateNext,
 
         <span class="doccomment">/// Resume the async generator with yield delegate logic after it awaits a value.
         ///
-        /// Operands: skip_yield: `u32`, normal_completion: `u32`, exit: `u32`
+        /// Operands: return: `u32`, exit: `u32`
         ///
         /// Stack: is_return, received **=&gt;** value
-        </span>GeneratorAsyncDelegateResume,
+        </span>GeneratorDelegateResume,
 
         <span class="doccomment">/// Stops the current async function and schedules it to resume later.
         ///
         /// Operands:
         ///
-        /// Stack: promise **=&gt;**
+        /// Stack: promise **=&gt;** received
         </span>Await,
 
         <span class="doccomment">/// Push the current new target to the stack.
@@ -3560,6 +3602,10 @@
         </span>Reserved55 =&gt; Reserved,
         <span class="doccomment">/// Reserved [`Opcode`].
         </span>Reserved56 =&gt; Reserved,
+        <span class="doccomment">/// Reserved [`Opcode`].
+        </span>Reserved57 =&gt; Reserved,
+        <span class="doccomment">/// Reserved [`Opcode`].
+        </span>Reserved58 =&gt; Reserved,
     }
 }
 
